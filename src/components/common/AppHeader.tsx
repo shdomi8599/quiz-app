@@ -29,9 +29,10 @@ const AppHeader = () => {
     </NavItemBox>
   ));
 
-  const onClickLogo = () => {
+  const onClickLogo = async () => {
+    await setCurrentNavItem(""); //setCurrentNavItem 함수가 비동기로 작동하다보니, logo를 2번 클릭해야 이동하는 문제가 생겨 await으로 해결
     setIsNav(false);
-    setCurrentNavItem("");
+    navigate("/");
   };
 
   const navHandler = () => {
@@ -45,10 +46,7 @@ const AppHeader = () => {
 
   useEffect(() => {
     const path = NAV_ITEMS[currentNavItem];
-    if (path) {
-      return navigate(path);
-    }
-    navigate("/");
+    navigate(path);
   }, [currentNavItem]);
 
   return (
@@ -75,6 +73,7 @@ const HeaderBox = styled(Header)`
   align-items: center;
   justify-content: space-between;
   padding: 0px calc((100% - 960px) / 2);
+  z-index: 100;
 
   .logo-box {
     min-width: 140px;
