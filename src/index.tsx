@@ -1,5 +1,6 @@
+import App from "./components/common/App";
 import ReactDOM from "react-dom/client";
-import App from "./App";
+
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
@@ -22,6 +23,7 @@ export const db = getFirestore(app);
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
+
 root.render(
   <RecoilRoot>
     <App />
