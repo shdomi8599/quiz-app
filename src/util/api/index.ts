@@ -11,6 +11,8 @@ export const quizApi = axios.create({
   },
 });
 
-export const getQuizDatas = async (): Promise<QuizData[]> => {
-  return await quizApi("api.php?amount=10").then((res) => res.data.results);
+export const getQuizDatas = async (size: number): Promise<QuizData[]> => {
+  return await quizApi(`api.php?amount=${size}`).then(
+    (res) => res.data.results
+  );
 };
