@@ -1,4 +1,3 @@
-import { db } from "../..";
 import {
   addDoc,
   collection,
@@ -8,6 +7,20 @@ import {
   getDocs,
   setDoc,
 } from "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
+import { initializeApp } from "firebase/app";
+
+const firebaseConfig = {
+  apiKey: process.env.REACT_APP_FIRE_BASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIRE_BASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIRE_BASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIRE_BASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIRE_BASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIRE_BASE_APP_ID,
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
 /**
  * 컬렉션명과 이름이 일치하는 데이터의 값을 수정할 수 있음
