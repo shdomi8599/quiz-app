@@ -4,8 +4,8 @@ import { styled } from "styled-components";
 import { Layout } from "antd";
 import { FaBars } from "react-icons/fa";
 
-import { useOffResize } from "../hooks/useOffResize";
 import { NAV_ITEMS } from "../../constants";
+import { useOffResize } from "../../hooks/useOffResize";
 
 const { Header } = Layout;
 
