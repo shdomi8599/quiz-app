@@ -1,10 +1,11 @@
-import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
+import { RecoilRoot } from "recoil";
 
+//파이어 베이스 설정
 const firebaseConfig = {
   apiKey: process.env.FIRE_BASE_API_KEY,
   authDomain: process.env.FIRE_BASE_AUTH_DOMAIN,
@@ -22,7 +23,7 @@ const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
-  <React.StrictMode>
+  <RecoilRoot>
     <App />
-  </React.StrictMode>
+  </RecoilRoot>
 );
