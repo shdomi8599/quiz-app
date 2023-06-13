@@ -2,17 +2,23 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
 import { Layout } from "antd";
+import { useRecoilState } from "recoil";
 import { FaBars } from "react-icons/fa";
 
-import { NAV_ITEMS } from "../../constants";
 import { useOffResize } from "../../hooks/useOffResize";
+import { NAV_ITEMS } from "../../constants";
+import { currentNavItemState, userIdState } from "../../recoil";
+import { confirmAlert } from "./Alert";
 
 const { Header } = Layout;
 
 const AppHeader = () => {
   const navigate = useNavigate();
 
-  const [currentNavItem, setCurrentNavItem] = useState("");
+  const [userId, setUserId] = useRecoilState(userIdState);
+
+  const [currentNavItem, setCurrentNavItem] =
+    useRecoilState(currentNavItemState);
 
   const [isNav, setIsNav] = useState(false);
   useOffResize(768, "up", setIsNav); //768px보다 페이지가 커지면 네비를 off하기 위한 hook
@@ -23,41 +29,50 @@ const AppHeader = () => {
       $currentNavItem={currentNavItem}
       $item={item}
       key={item}
-      onClick={() => navItemHandler(item)}
+      onClick={() => handleNavItem(item)}
     >
       {item}
     </NavItemBox>
   ));
 
-  const onClickLogo = async () => {
-    await setCurrentNavItem(""); //setCurrentNavItem 함수가 비동기로 작동하다보니, logo를 2번 클릭해야 이동하는 문제가 생겨 await으로 해결
-    setIsNav(false);
-    navigate("/");
-  };
-
-  const navHandler = () => {
+  const handleNavigationToggle = () => {
     setIsNav((prevIsNav) => !prevIsNav);
   };
 
-  const navItemHandler = (key: string) => {
-    setIsNav(false);
-    setCurrentNavItem(key);
+  const handleNavItem = (key: string) => {
+    const handleNavigation = () => {
+      setIsNav(false);
+      setCurrentNavItem(key);
+    };
+
+    if (userId) {
+      confirmAlert("정말 포기하시겠습니까?", "퀴즈 포기가")
+        .then(() => {
+          setUserId("");
+          handleNavigation();
+        })
+        .catch(() => {});
+    } else {
+      handleNavigation();
+    }
   };
 
   useEffect(() => {
     const path = NAV_ITEMS[currentNavItem];
-    navigate(path);
+    if (path) {
+      navigate(path);
+    }
   }, [currentNavItem]);
 
   return (
     <HeaderBox>
       <div className="logo-box">
-        <img onClick={onClickLogo} src={"/logo.png"} alt="logo" />
+        <img onClick={() => handleNavItem("홈")} src={"/logo.png"} alt="logo" />
       </div>
       <NavBox>
         <ul>{navItems}</ul>
       </NavBox>
-      <FaBars className="bars-icon" onClick={navHandler} />
+      <FaBars className="bars-icon" onClick={handleNavigationToggle} />
       <ModalNavBox $isNav={isNav}>
         <ul>{navItems}</ul>
       </ModalNavBox>
