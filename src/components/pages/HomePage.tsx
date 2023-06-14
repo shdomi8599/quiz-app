@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { Button, Result, Input, Form, Radio } from "antd";
 import { styled } from "styled-components";
-import { useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 
 import {
   currentNavItemState,
@@ -9,13 +9,13 @@ import {
   quizLevelState,
   userIdState,
 } from "../../recoil";
-import { setDbData } from "../../util/firebase";
+import { getDbDataByDocName, setDbData } from "../../util/firebase";
 import { generateRandomCode } from "../../util/random";
 import { getQuizDatas } from "../../util/api";
 import { errorAlert } from "../common/Alert";
 import { useCommonLoading } from "../../hooks/useCommonLoading";
-import { QUIZ_LEVEL_ITEMS } from "../../constants";
-import { HomeFormItem } from "../../types";
+import { QUIZ_LEVEL_ITEMS, QUIZ_UESR_OPTIONS } from "../../constants";
+import { HomeFormItem, UserData } from "../../types";
 
 const HomePage = () => {
   const { handleCommonLoading } = useCommonLoading();
@@ -24,46 +24,63 @@ const HomePage = () => {
 
   const setCurrentNavItem = useSetRecoilState(currentNavItemState);
 
-  const setUserId = useSetRecoilState(userIdState);
+  const [userId, setUserId] = useRecoilState(userIdState);
 
   const setQuizDatas = useSetRecoilState(quizDatasState);
 
   const setQuizLevel = useSetRecoilState(quizLevelState);
 
   const initialValues = {
-    ["level"]: 10,
+    level: 10,
+    userOption: "new",
   };
 
   const onFinish = async (values: HomeFormItem) => {
     handleCommonLoading();
 
-    const { nickname, level } = values;
+    const { userOption, nickname, level } = values;
 
     setQuizLevel(level);
 
-    const code = generateRandomCode(4);
-    const userId = nickname + code;
+    if (userOption === "new") {
+      const code = generateRandomCode(4);
+      const userId = nickname + code;
 
-    const userData = {
-      userId,
-    };
+      const userData = {
+        userId,
+      };
 
-    await setDbData("users", userId, userData)
-      .then(() => {
-        setUserId(userId);
-        setCurrentNavItem("quiz");
-      })
-      .catch(() => errorAlert("잠시 후에 다시 시도해주세요.", "퀴즈"));
+      await setDbData("users", userId, userData)
+        .then(() => {
+          setUserId(userId);
+        })
+        .catch(() => {
+          return errorAlert("잠시 후에 다시 시도해주세요.", "퀴즈");
+        });
+    }
+
+    if (userOption === "existing") {
+      const res = await getDbDataByDocName<UserData>("users", nickname);
+
+      if (res) {
+        setUserId(nickname);
+      } else {
+        handleCommonLoading();
+
+        return errorAlert("닉네임이 존재하지 않습니다.", "기존 유저");
+      }
+    }
 
     await getQuizDatas(level).then((datas) => {
       setQuizDatas(datas);
     });
 
+    setCurrentNavItem("퀴즈"); //네비 디폴트가 홈이다보니 퀴즈 중 다른 페이지로 이동했을 때, 한 번씩 밀리는 현상을 막기 위함
+
     handleCommonLoading();
 
     navigate("/quiz/1");
   };
-
   return (
     <Box>
       <Result
@@ -76,6 +93,15 @@ const HomePage = () => {
             autoComplete="off"
             onFinish={onFinish}
           >
+            <Form.Item name="userOption">
+              <Radio.Group>
+                {QUIZ_UESR_OPTIONS.map(({ label, value }) => (
+                  <Radio key={label} value={value}>
+                    {label}
+                  </Radio>
+                ))}
+              </Radio.Group>
+            </Form.Item>
             <Form.Item
               name="nickname"
               rules={[
