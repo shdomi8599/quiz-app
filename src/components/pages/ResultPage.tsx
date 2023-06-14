@@ -1,14 +1,18 @@
 import { useEffect } from "react";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { Descriptions, Result } from "antd";
 import { SmileOutlined } from "@ant-design/icons";
 import { styled } from "styled-components";
 
 import {
+  currentNavItemState,
   resultTableItemsState,
   wrongAnswerQuestionsCountState,
 } from "../../recoil";
-import { formatResultItemContent } from "../../util/format";
+import {
+  formatResultItemContent,
+  formatResultItemSpan,
+} from "../../util/format";
 import { confettiRealisticLook, confettiStar } from "../../util/confetti";
 import { useRedirectAndBack } from "../../hooks/useRedirectAndBack";
 
@@ -44,8 +48,12 @@ const ResultPage = () => {
         }
         extra={
           <Descriptions column={6} title="결과표" bordered>
-            {resultTableItems.map(({ span, label, content }) => (
-              <Descriptions.Item key={label} span={span} label={label}>
+            {resultTableItems.map(({ label, content }) => (
+              <Descriptions.Item
+                key={label}
+                span={formatResultItemSpan(label)}
+                label={label}
+              >
                 {formatResultItemContent(label, content)}
               </Descriptions.Item>
             ))}
