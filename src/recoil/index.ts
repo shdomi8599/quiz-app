@@ -27,6 +27,14 @@ export const quizDatasState = atom<QuizData[]>({
   default: [],
 });
 
+export const quizDatasLegnthState = selector({
+  key: "quizDatasLegnthState",
+  get: ({ get }) => {
+    const quizDatas = get(quizDatasState);
+    return quizDatas.length;
+  },
+});
+
 export const wrongAnswerQuestionsState = atom<QuizData[]>({
   key: "wrongAnswerQuestionsState",
   default: [],
