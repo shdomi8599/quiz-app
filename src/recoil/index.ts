@@ -2,6 +2,11 @@ import { atom, selector } from "recoil";
 
 import { QuizData, ResultTableItem } from "../types";
 
+export const quizLevelState = atom({
+  key: "quizLevelState",
+  default: 10,
+});
+
 export const commonLoadingState = atom({
   key: "commonLoadingState",
   default: false,
