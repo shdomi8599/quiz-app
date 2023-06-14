@@ -28,4 +28,5 @@ export interface ResultTableItem {
 export interface HomeFormItem {
   nickname: string;
   level: number;
+  userOption: "new" | "existing";
 }
