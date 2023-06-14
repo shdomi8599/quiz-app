@@ -16,3 +16,9 @@ export interface ResultItem {
   wrongAnswerQuestions: QuizData[];
   resultId: number;
 }
+
+export interface ResultTableItem {
+  label: string;
+  span: number;
+  content: string;
+}
