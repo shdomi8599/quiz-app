@@ -34,3 +34,11 @@ export const QUIZ_LEVEL_ITEMS = [
   { label: "중", value: 25 },
   { label: "상", value: 50 },
 ];
+
+export const RANKING_COLUMNS = [
+  {
+    title: "아이디",
+    dataIndex: "userId",
+    key: "userId",
+  },
+];
