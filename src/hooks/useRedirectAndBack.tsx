@@ -13,7 +13,7 @@ export const useRedirectAndBack = () => {
     if (!userId) {
       navigate("/");
     }
-  }, [userId]);
+  }, []);
 
   useEffect(() => {
     const preventGoBack = () => {
