@@ -13,7 +13,7 @@ const TableSkeleton = ({ size }: { size: number }) => {
         ))}
       </div>
       <div className="sub">
-        <Skeleton width={"60%"} height={"56px"} />
+        <Skeleton width={"60%"} height={"32px"} />
       </div>
     </Box>
   );
@@ -22,7 +22,7 @@ const TableSkeleton = ({ size }: { size: number }) => {
 export default TableSkeleton;
 
 const Box = styled.div`
-  width: 90%;
+  width: 80%;
   padding: 40px 0px;
   .main {
     width: 100%;
