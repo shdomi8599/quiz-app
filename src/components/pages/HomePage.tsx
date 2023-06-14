@@ -63,19 +63,10 @@ const HomePage = () => {
 
     if (userOption === "new") {
       const newCode = generateRandomCode(4);
+
       const userId = nickname + newCode;
 
-      const userData = {
-        userId,
-      };
-
-      await setDbData("users", userId, userData)
-        .then(() => {
-          setUserId(userId);
-        })
-        .catch(() => {
-          return handleError("퀴즈");
-        });
+      setUserId(userId);
     }
 
     if (userOption === "existing") {
