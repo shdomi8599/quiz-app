@@ -1,9 +1,9 @@
+import theme from "./styels/theme";
+
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import { RecoilRoot } from "recoil";
-
-import theme from "./styels/theme";
 
 import App from "./components/common/App";
 

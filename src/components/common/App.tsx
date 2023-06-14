@@ -4,10 +4,11 @@ import { styled } from "styled-components";
 import { Route, Routes } from "react-router-dom";
 import { Layout, Spin } from "antd";
 
-import AppHeader from "./AppHeader";
-import AppFooter from "./AppFooter";
 import { ROUTES } from "../../constants";
 import { useCommonLoading } from "../../hooks/useCommonLoading";
+
+import AppHeader from "./AppHeader";
+import AppFooter from "./AppFooter";
 
 function App() {
   const { commonLoading } = useCommonLoading();
