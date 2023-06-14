@@ -23,3 +23,9 @@ export const NAV_ITEMS: { [key: string]: string } = {
   오답노트: "/mistakes",
   재도전: "/retry",
 };
+
+export const QUIZ_LEVEL_ITEMS = [
+  { label: "하", value: 10 },
+  { label: "중", value: 25 },
+  { label: "상", value: 50 },
+];
