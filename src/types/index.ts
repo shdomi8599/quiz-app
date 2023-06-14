@@ -22,11 +22,14 @@ export interface ResultItem {
 export interface ResultTableItem {
   label: string;
   span: number;
-  content: string;
+  content: string | number;
 }
 
 export interface HomeFormItem {
   nickname: string;
   level: number;
-  userOption: "new" | "existing";
+  userOption: UserOption;
+  code?: string;
 }
+
+export type UserOption = "new" | "existing";
