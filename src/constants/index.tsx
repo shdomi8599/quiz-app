@@ -37,8 +37,18 @@ export const QUIZ_LEVEL_ITEMS = [
 
 export const RANKING_COLUMNS = [
   {
+    title: "랭킹",
+    dataIndex: "rank",
+    key: "rank",
+  },
+  {
     title: "아이디",
     dataIndex: "userId",
     key: "userId",
+  },
+  {
+    title: "누적 정답",
+    dataIndex: "accumulateAnswers",
+    key: "accumulateAnswers",
   },
 ];
