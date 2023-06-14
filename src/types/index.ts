@@ -32,3 +32,10 @@ export interface HomeFormItem {
 }
 
 export type UserOption = "new" | "existing";
+
+export type TableColumn = {
+  title: string;
+  dataIndex: string;
+  key: string;
+};
+
