@@ -10,10 +10,10 @@ import {
 } from "../../recoil";
 import { formatResultItemContent } from "../../util/format";
 import { confettiRealisticLook, confettiStar } from "../../util/confetti";
-import { useUserIdRedirect } from "../../hooks/useUserIdRedirect";
+import { useRedirectAndBack } from "../../hooks/useRedirectAndBack";
 
 const ResultPage = () => {
-  useUserIdRedirect();
+  useRedirectAndBack();
 
   const wrongCount = useRecoilValue(wrongAnswerQuestionsCountState);
 
