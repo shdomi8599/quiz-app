@@ -6,6 +6,7 @@ import { userIdState } from "../recoil";
 
 export const useUserIdRedirect = () => {
   const userId = useRecoilValue(userIdState);
+
   const navigate = useNavigate();
 
   useEffect(() => {

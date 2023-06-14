@@ -8,8 +8,11 @@ import { setDbData } from "../../util/firebase";
 import { generateRandomCode } from "../../util/random";
 import { getQuizDatas } from "../../util/api";
 import { errorAlert } from "../common/Alert";
+import { useCommonLoading } from "../../hooks/useCommonLoading";
 
 const HomePage = () => {
+  const { handleCommonLoading } = useCommonLoading();
+
   const navigate = useNavigate();
 
   const setCurrentNavItem = useSetRecoilState(currentNavItemState);
@@ -19,6 +22,8 @@ const HomePage = () => {
   const setQuizDatas = useSetRecoilState(quizDatasState);
 
   const onFinish = async (values: { nickname: string }) => {
+    handleCommonLoading();
+
     const { nickname } = values;
     const code = generateRandomCode(4);
     const userId = nickname + code;
@@ -37,6 +42,8 @@ const HomePage = () => {
     await getQuizDatas(10).then((datas) => {
       setQuizDatas(datas);
     });
+
+    handleCommonLoading();
 
     navigate("/quiz/1");
   };
