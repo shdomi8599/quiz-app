@@ -2,6 +2,11 @@ import { atom, selector } from "recoil";
 
 import { QuizData } from "../types";
 
+export const commonLoadingState = atom({
+  key: "commonLoadingState",
+  default: false,
+});
+
 export const userIdState = atom({
   key: "userIdState",
   default: "",
