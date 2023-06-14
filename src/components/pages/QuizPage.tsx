@@ -23,15 +23,15 @@ import {
 } from "../../recoil";
 import { getDbDataByDocName, setDbData } from "../../util/firebase";
 import { shuffleDatas } from "../../util/random";
-import { UserData } from "../../types";
-import { useUserIdRedirect } from "../../hooks/useUserIdRedirect";
+import { ResultItem, UserData } from "../../types";
+import { useRedirectAndBack } from "../../hooks/useRedirectAndBack";
 import { useCommonLoading } from "../../hooks/useCommonLoading";
 import { errorAlert } from "../common/Alert";
 
 const QuizPage = () => {
   const { handleCommonLoading } = useCommonLoading();
 
-  const { userId, navigate } = useUserIdRedirect();
+  const { userId, navigate } = useRedirectAndBack();
 
   const { id } = useParams();
 
@@ -139,29 +139,26 @@ const QuizPage = () => {
     ];
     setResultTableItems(resultTableItems);
 
-    await getDbDataByDocName<UserData>("users", userId)
-      .then((res) => {
-        const resultsData = res.results;
+    const userData = await getDbDataByDocName<UserData>("users", userId);
 
-        const createdAt = new Date();
+    const createdAt = new Date();
 
-        const resultId = (resultsData?.length || 0) + 1;
+    const resultsData = userData && (userData.results as ResultItem[]);
 
-        const newResult = {
-          resultId,
-          createdAt,
-          wrongAnswerQuestions,
-          resultTableItems,
-        };
+    const resultId = userData ? resultsData.length + 1 : 1;
 
-        const newData = {
-          ...res,
-          results: resultsData ? [...resultsData, newResult] : [newResult],
-        };
+    const newResult = {
+      resultId,
+      createdAt,
+      wrongAnswerQuestions,
+      resultTableItems,
+    };
 
-        setDbData("users", userId, newData);
-      })
-      .catch(() => errorAlert("잠시 후에 다시 시도해주세요.", "결과 조회"));
+    const newData = userData
+      ? { ...userData, results: [...resultsData, newResult] }
+      : { userId, results: [newResult] };
+
+    await setDbData("users", userId, newData);
 
     handleCommonLoading();
 
@@ -274,8 +271,26 @@ const Box = styled.main<BoxProps>`
     }
   }
 
+  .ant-radio-group {
+    width: 100%;
+    .ant-space {
+      width: 100%;
+    }
+  }
+
   .radio-box {
-    margin: 20px 40px;
+    width: 100%;
+    padding: 20px 40px;
+
+    ${({ $isViewAnswer, theme }) =>
+      !$isViewAnswer &&
+      `
+    &:hover {
+      border-radius: 10px;
+      color: white;
+      background-color: ${theme.colors.main}};
+    }
+  `}
   }
 `;
 
