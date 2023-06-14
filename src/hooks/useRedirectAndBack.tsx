@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import { userIdState } from "../recoil";
 
-export const useUserIdRedirect = () => {
+export const useRedirectAndBack = () => {
   const userId = useRecoilValue(userIdState);
 
   const navigate = useNavigate();
@@ -14,6 +14,16 @@ export const useUserIdRedirect = () => {
       navigate("/");
     }
   }, [userId]);
+
+  useEffect(() => {
+    const preventGoBack = () => {
+      navigate("/");
+    };
+
+    window.addEventListener("popstate", preventGoBack);
+
+    return () => window.removeEventListener("popstate", preventGoBack);
+  }, []);
 
   return {
     userId,
