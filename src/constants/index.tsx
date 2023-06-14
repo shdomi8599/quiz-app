@@ -24,6 +24,11 @@ export const NAV_ITEMS: { [key: string]: string } = {
   재도전: "/retry",
 };
 
+export const QUIZ_UESR_OPTIONS = [
+  { label: "신규 유저", value: "new" },
+  { label: "기존 유저", value: "existing" },
+];
+
 export const QUIZ_LEVEL_ITEMS = [
   { label: "하", value: 10 },
   { label: "중", value: 25 },
