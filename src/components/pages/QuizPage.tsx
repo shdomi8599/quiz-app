@@ -1,28 +1,34 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { Button, Card, Space, Radio, RadioChangeEvent, Badge } from "antd";
+import { useParams } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { styled } from "styled-components";
-
+import { decode } from "he";
 import {
-  quizDatasState,
-  userIdState,
-  wrongAnswerQuestionsState,
-} from "../../recoil";
+  Button,
+  Card,
+  Space,
+  Radio,
+  RadioChangeEvent,
+  Badge,
+  Progress,
+} from "antd";
+
+import { quizDatasState, wrongAnswerQuestionsState } from "../../recoil";
 import { getDbDataByDocName, setDbData } from "../../util/firebase";
-import { UserData } from "../../types";
-import { errorAlert } from "../common/Alert";
 import { shuffleDatas } from "../../util/random";
+import { UserData } from "../../types";
 import { useUserIdRedirect } from "../../hooks/useUserIdRedirect";
+import { useCommonLoading } from "../../hooks/useCommonLoading";
+import { errorAlert } from "../common/Alert";
 
 const QuizPage = () => {
+  const { handleCommonLoading } = useCommonLoading();
+
   const { userId, navigate } = useUserIdRedirect();
 
   const { id } = useParams();
 
-  const quizId = Number(id);
-
-  const [isCheckAnswer, setIsCheckAnswer] = useState(false);
+  const [isViewAnswer, setIsViewAnswer] = useState(false);
 
   const [selectedAnswer, setSelectedAnswer] = useState("");
 
@@ -32,11 +38,19 @@ const QuizPage = () => {
 
   const [quizDatas] = useRecoilState(quizDatasState);
 
-  const quizData = useMemo(() => quizDatas[quizId - 1], [quizDatas, quizId]);
+  const quizId = Number(id);
 
-  const correctAnswer = quizData ? quizData.correct_answer : "";
+  const circleProgressPercent = isViewAnswer ? quizId * 10 : (quizId - 1) * 10;
 
-  const wrongAnswer = quizData ? quizData.incorrect_answers : [];
+  const quizData = quizDatas[quizId - 1];
+
+  const quizTitle = quizData ? decode(quizData?.question) : "";
+
+  const correctAnswer = quizData ? decode(quizData?.correct_answer) : "";
+
+  const wrongAnswer = quizData
+    ? quizData.incorrect_answers.map((answer) => decode(answer))
+    : [];
 
   const answers = useMemo(
     () => shuffleDatas([...wrongAnswer, correctAnswer]),
@@ -47,13 +61,16 @@ const QuizPage = () => {
     setSelectedAnswer(e.target.value);
   }, []);
 
-  const handlerIsCheckAnswer = useCallback(() => {
-    setIsCheckAnswer((prev) => !prev);
-  }, []);
+  const handlerIsCheckAnswer = () => {
+    if (selectedAnswer === "") {
+      return errorAlert("정답을 선택해주세요", "퀴즈");
+    }
+    setIsViewAnswer(true);
+  };
 
   const resetAnswer = useCallback(() => {
     setSelectedAnswer("");
-    handlerIsCheckAnswer();
+    setIsViewAnswer(false);
   }, []);
 
   const navigateToNextQuiz = () => {
@@ -62,6 +79,8 @@ const QuizPage = () => {
   };
 
   const navigateToResultPage = async () => {
+    handleCommonLoading();
+
     await getDbDataByDocName<UserData>("users", userId)
       .then((res) => {
         const resultsData = res.results;
@@ -79,20 +98,24 @@ const QuizPage = () => {
       })
       .catch(() => errorAlert("잠시 후에 다시 시도해주세요.", "결과"));
 
+    handleCommonLoading();
+
     navigate(`/result`);
   };
 
   useEffect(() => {
     const isWrongAnswer =
       selectedAnswer !== "" && selectedAnswer !== correctAnswer;
-    if (isWrongAnswer && isCheckAnswer) {
+    if (isWrongAnswer && isViewAnswer) {
       setWrongAnswerQuestions((prev) => [...prev, quizData]);
     }
-  }, [isCheckAnswer]);
+  }, [isViewAnswer]);
 
   return (
-    <Box $isCheckAnswer={isCheckAnswer}>
-      <Card className="card" title={quizData?.question} bordered={false}>
+    <Box $isViewAnswer={isViewAnswer}>
+      <Progress type="circle" percent={circleProgressPercent} />
+      <Progress className="progress" percent={3} status="active" />
+      <Card className="card" title={<div>{quizTitle}</div>} bordered={false}>
         <Radio.Group onChange={handleSelectedAnswer} value={selectedAnswer}>
           <Space direction="vertical">
             {answers.map((answer) => (
@@ -106,7 +129,7 @@ const QuizPage = () => {
                   className="radio-box"
                   key={answer}
                   value={answer}
-                  disabled={isCheckAnswer}
+                  disabled={isViewAnswer}
                 >
                   {answer}
                 </Radio>
@@ -115,7 +138,7 @@ const QuizPage = () => {
           </Space>
         </Radio.Group>
       </Card>
-      {isCheckAnswer ? (
+      {isViewAnswer ? (
         id === "10" ? (
           <Button onClick={navigateToResultPage}>결과 확인</Button>
         ) : (
@@ -131,13 +154,18 @@ const QuizPage = () => {
 export default QuizPage;
 
 type BoxProps = {
-  $isCheckAnswer: boolean;
+  $isViewAnswer: boolean;
 };
 
 const Box = styled.main<BoxProps>`
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 40px;
+
+  .progress {
+    width: 70%;
+    margin: 0;
+  }
 
   .card {
     width: 70%;
@@ -148,7 +176,7 @@ const Box = styled.main<BoxProps>`
     }
 
     .ant-ribbon {
-      display: ${({ $isCheckAnswer }) => ($isCheckAnswer ? "display" : "none")};
+      display: ${({ $isViewAnswer }) => ($isViewAnswer ? "display" : "none")};
       top: 20px;
       left: -33px;
     }
