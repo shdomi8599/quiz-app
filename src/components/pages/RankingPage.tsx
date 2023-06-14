@@ -1,11 +1,13 @@
 import { useCallback, useEffect, useState } from "react";
 import { styled } from "styled-components";
+
 import { UserData } from "../../types";
 import { getDbAllData } from "../../util/firebase";
 import { useCommonLoading } from "../../hooks/useCommonLoading";
-import TableSkeleton from "../skeleton/TableSkeleton";
-import TableContent from "../table/TableContent";
 import { RANKING_COLUMNS } from "../../constants";
+
+import TableContent from "../table/TableContent";
+import TableSkeleton from "../skeleton/TableSkeleton";
 
 const RankingPage = () => {
   const { commonLoading, handleCommonLoading } = useCommonLoading();
@@ -16,10 +18,45 @@ const RankingPage = () => {
 
   const [userDatas, setUserDatas] = useState<UserData[]>([]);
 
+  const formatUsers = userDatas.map((data) => {
+    const userId = data.userId;
+
+    const userResultsData = data.results;
+
+    const accumulateAnswers = userResultsData?.reduce(
+      (acc, result) =>
+        acc +
+        Number(
+          result.resultTableItems.find((item) => item.label === "정답 수")
+            ?.content
+        ),
+      0
+    );
+
+    return {
+      key: userId,
+      userId,
+      accumulateAnswers,
+    };
+  });
+
+  const sortedUsers = formatUsers
+    .sort((a, b) => {
+      const sumA = a.accumulateAnswers as number;
+      const sumB = b.accumulateAnswers as number;
+      return sumB - sumA;
+    })
+    .map((data, idx) => {
+      return {
+        ...data,
+        rank: idx + 1,
+      };
+    });
+
   const startIndex = (page - 1) * size;
   const endIndex = startIndex + size;
 
-  const data = userDatas.slice(startIndex, endIndex);
+  const data = sortedUsers.slice(startIndex, endIndex);
 
   const totalElements = userDatas.length;
 
@@ -56,4 +93,6 @@ const RankingPage = () => {
 
 export default RankingPage;
 
-const Box = styled.main``;
+const Box = styled.main`
+  margin: 40px 0px;
+`;
