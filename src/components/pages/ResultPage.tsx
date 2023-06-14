@@ -20,11 +20,15 @@ const ResultPage = () => {
 
   const resultTableItems = useRecoilValue(resultTableItemsState);
 
+  const tableItemsCount = resultTableItems.length;
+
   useEffect(() => {
-    if (wrongCount === 0) {
+    if (wrongCount === 0 && tableItemsCount) {
       return confettiStar();
     }
-    confettiRealisticLook();
+    if (tableItemsCount) {
+      confettiRealisticLook();
+    }
   }, []);
 
   return (
