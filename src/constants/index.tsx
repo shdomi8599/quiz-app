@@ -4,6 +4,7 @@ import RankingPage from "../components/pages/RankingPage";
 import StatisticsPage from "../components/pages/StatisticsPage";
 import MistakesPage from "../components/pages/MistakesPage";
 import RetryPage from "../components/pages/RetryPage";
+import ResultPage from "../components/pages/ResultPage";
 
 export const ROUTES = [
   { path: "/", element: <HomePage /> },
@@ -12,6 +13,7 @@ export const ROUTES = [
   { path: "/statistics", element: <StatisticsPage /> },
   { path: "/mistakes", element: <MistakesPage /> },
   { path: "/retry", element: <RetryPage /> },
+  { path: "/result", element: <ResultPage /> },
 ];
 
 export const NAV_ITEMS: { [key: string]: string } = {

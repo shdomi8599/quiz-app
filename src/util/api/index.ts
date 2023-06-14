@@ -1,4 +1,5 @@
 import axios from "axios";
+
 import { QuizData } from "../../types";
 
 const baseURL = "https://opentdb.com";
