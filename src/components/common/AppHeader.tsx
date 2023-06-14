@@ -1,13 +1,18 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
 import { Layout } from "antd";
 import { useRecoilState } from "recoil";
 import { FaBars } from "react-icons/fa";
 
+import {
+  currentNavItemState,
+  quizDatasState,
+  userIdState,
+  wrongAnswerQuestionsState,
+} from "../../recoil";
 import { useOffResize } from "../../hooks/useOffResize";
 import { NAV_ITEMS } from "../../constants";
-import { currentNavItemState, userIdState } from "../../recoil";
 import { confirmAlert } from "./Alert";
 
 const { Header } = Layout;
@@ -15,13 +20,22 @@ const { Header } = Layout;
 const AppHeader = () => {
   const navigate = useNavigate();
 
-  const [userId, setUserId] = useRecoilState(userIdState);
+  const location = useLocation();
+
+  const [, setUserId] = useRecoilState(userIdState);
 
   const [currentNavItem, setCurrentNavItem] =
     useRecoilState(currentNavItemState);
 
+  const [, setWrongAnswerQuestions] = useRecoilState(wrongAnswerQuestionsState);
+
+  const [, setQuizDatas] = useRecoilState(quizDatasState);
+
   const [isNav, setIsNav] = useState(false);
   useOffResize(768, "up", setIsNav); //768px보다 페이지가 커지면 네비를 off하기 위한 hook
+
+  const { pathname } = location;
+  const isQuizPage = pathname.includes("quiz");
 
   const navItemsKeys = Object.keys(NAV_ITEMS);
   const navItems = navItemsKeys.map((item) => (
@@ -39,21 +53,24 @@ const AppHeader = () => {
     setIsNav((prevIsNav) => !prevIsNav);
   };
 
-  const handleNavItem = (key: string) => {
-    const handleNavigation = () => {
-      setIsNav(false);
-      setCurrentNavItem(key);
-    };
+  const resetState = () => {
+    setUserId("");
+    setIsNav(false);
+    setQuizDatas([]);
+    setWrongAnswerQuestions([]);
+  };
 
-    if (userId) {
+  const handleNavItem = (key: string) => {
+    if (isQuizPage) {
       confirmAlert("정말 포기하시겠습니까?", "퀴즈 포기가")
         .then(() => {
-          setUserId("");
-          handleNavigation();
+          resetState();
+          setCurrentNavItem(key);
         })
         .catch(() => {});
     } else {
-      handleNavigation();
+      resetState();
+      setCurrentNavItem(key);
     }
   };
 
