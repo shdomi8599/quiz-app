@@ -8,10 +8,9 @@ import {
   resultTableItemsState,
   wrongAnswerQuestionsCountState,
 } from "../../recoil";
+import { formatResultItemContent } from "../../util/format";
 import { confettiRealisticLook, confettiStar } from "../../util/confetti";
 import { useUserIdRedirect } from "../../hooks/useUserIdRedirect";
-
-import CopyBtn from "../common/CopyBtn";
 
 const ResultPage = () => {
   useUserIdRedirect();
@@ -47,8 +46,7 @@ const ResultPage = () => {
           <Descriptions column={6} title="결과표" bordered>
             {resultTableItems.map(({ span, label, content }) => (
               <Descriptions.Item key={label} span={span} label={label}>
-                {content}
-                {label === "아이디" && <CopyBtn content={content} />}
+                {formatResultItemContent(label, content)}
               </Descriptions.Item>
             ))}
           </Descriptions>
