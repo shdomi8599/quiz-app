@@ -13,12 +13,19 @@ export interface UserData {
 }
 
 export interface ResultItem {
-  wrongAnswerQuestions: QuizData[];
   resultId: number;
+  createdAt: string;
+  wrongAnswerQuestions: QuizData[];
+  resultTableItems: ResultTableItem[];
 }
 
 export interface ResultTableItem {
   label: string;
   span: number;
   content: string;
+}
+
+export interface HomeFormItem {
+  nickname: string;
+  level: number;
 }
