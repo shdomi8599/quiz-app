@@ -16,6 +16,7 @@ import {
 import {
   elapsedTimeState,
   quizDatasState,
+  quizLevelState,
   resultTableItemsState,
   wrongAnswerQuestionsCountState,
   wrongAnswerQuestionsState,
@@ -41,6 +42,8 @@ const QuizPage = () => {
   const [isViewAnswer, setIsViewAnswer] = useState(false);
 
   const [selectedAnswer, setSelectedAnswer] = useState("");
+
+  const quizLevel = useRecoilValue(quizLevelState);
 
   const [, setResultTableItems] = useRecoilState(resultTableItemsState);
 
@@ -73,7 +76,9 @@ const QuizPage = () => {
 
   const quizId = Number(id);
 
-  const circleProgressPercent = isViewAnswer ? quizId * 10 : (quizId - 1) * 10;
+  const circleProgressPercent = isViewAnswer
+    ? (quizId * 100) / quizLevel
+    : ((quizId - 1) * 100) / quizLevel;
 
   const quizData = quizDatas[quizId - 1];
 
@@ -81,9 +86,8 @@ const QuizPage = () => {
 
   const correctAnswer = quizData ? decode(quizData?.correct_answer) : "";
 
-  const wrongAnswer = quizData
-    ? quizData.incorrect_answers.map((answer) => decode(answer))
-    : [];
+  const wrongAnswer =
+    quizData?.incorrect_answers?.map((answer) => decode(answer)) || [];
 
   const answers = useMemo(
     () => shuffleDatas([...wrongAnswer, correctAnswer]),
@@ -116,27 +120,38 @@ const QuizPage = () => {
 
     const wrongCount = wrongAnswerQuestionsCount;
 
-    const correctCount = 10 - wrongAnswerQuestionsCount;
+    const correctCount = quizLevel - wrongAnswerQuestionsCount;
 
-    const newResultTableItems = [
+    const resultTableItems = [
       { label: "아이디", span: 6, content: userId },
       { label: "정답 수", span: 3, content: `${correctCount}개` },
       { label: "오답 수", span: 3, content: `${wrongCount}개` },
-      { label: "소요 시간", span: 6, content: `${elapsedTime}초 / 600초` },
+      {
+        label: "소요 시간",
+        span: 6,
+        content: `${elapsedTime}초 / ${quizLevel * secLimit}초`,
+      },
     ];
-    setResultTableItems(newResultTableItems);
+    setResultTableItems(resultTableItems);
 
     await getDbDataByDocName<UserData>("users", userId)
       .then((res) => {
         const resultsData = res.results;
 
-        const resultId = resultsData?.length && resultsData?.length + 1;
+        const createdAt = new Date();
+
+        const resultId = (resultsData?.length || 0) + 1;
+
+        const newResult = {
+          resultId,
+          createdAt,
+          wrongAnswerQuestions,
+          resultTableItems,
+        };
 
         const newData = {
           ...res,
-          results: resultsData
-            ? [...resultsData, { wrongAnswerQuestions, resultId }]
-            : [{ wrongAnswerQuestions, resultId: 1 }],
+          results: resultsData ? [...resultsData, newResult] : [newResult],
         };
 
         setDbData("users", userId, newData);
@@ -220,7 +235,7 @@ const QuizPage = () => {
         </Radio.Group>
       </Card>
       {isViewAnswer ? (
-        id === "10" ? (
+        quizId === quizLevel ? (
           <Button onClick={navigateToResultPage}>결과 확인</Button>
         ) : (
           <Button onClick={navigateToNextQuiz}>다음 문제</Button>
