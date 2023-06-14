@@ -46,7 +46,7 @@ const AppHeader = () => {
       $currentNavItem={currentNavItem}
       $item={item}
       key={item}
-      onClick={() => handleNavItem(item)}
+      onClick={() => onClickNavItem(item)}
     >
       {item}
     </NavItemBox>
@@ -64,22 +64,22 @@ const AppHeader = () => {
     setWrongAnswerQuestions([]);
   }, []);
 
-  const handleNavItem = useCallback(
-    (key: string) => {
-      if (isQuizPage) {
-        confirmAlert("정말 포기하시겠습니까?", "퀴즈 포기가")
-          .then(() => {
-            resetState();
-            setCurrentNavItem(key);
-          })
-          .catch(() => {});
-      } else {
-        resetState();
-        setCurrentNavItem(key);
-      }
-    },
-    [isQuizPage]
-  );
+  const handleNavItem = useCallback((key: string) => {
+    setCurrentNavItem(key);
+    resetState();
+  }, []);
+
+  const onClickNavItem = (key: string) => {
+    if (isQuizPage) {
+      confirmAlert("정말 포기하시겠습니까?", "퀴즈 포기가")
+        .then(() => {
+          handleNavItem(key);
+        })
+        .catch(() => {});
+    } else {
+      handleNavItem(key);
+    }
+  };
 
   useEffect(() => {
     const path = NAV_ITEMS[currentNavItem];
@@ -91,7 +91,11 @@ const AppHeader = () => {
   return (
     <HeaderBox>
       <div className="logo-box">
-        <img onClick={() => handleNavItem("홈")} src={"/logo.png"} alt="logo" />
+        <img
+          onClick={() => onClickNavItem("홈")}
+          src={"/logo.png"}
+          alt="logo"
+        />
       </div>
       <NavBox>
         <ul>{navItems}</ul>
