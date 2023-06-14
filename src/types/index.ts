@@ -6,3 +6,13 @@ export interface QuizData {
   question: string;
   type: string;
 }
+
+export interface UserData {
+  userId: string;
+  results?: ResultItem[];
+}
+
+export interface ResultItem {
+  wrongAnswerQuestions: QuizData[];
+  resultId: number;
+}
