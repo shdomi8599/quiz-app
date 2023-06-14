@@ -1,5 +1,6 @@
-import { Pagination, Table, Form } from "antd";
+import { Pagination, Table } from "antd";
 import styled from "styled-components";
+
 import { TableColumn } from "../../types";
 
 type Props<T> = {
@@ -23,7 +24,6 @@ const TableContent = <T extends object>({
     <Box>
       <Table
         className="table"
-        style={{ width: "100%" }}
         dataSource={dataSource}
         columns={columns}
         pagination={false}
@@ -32,6 +32,7 @@ const TableContent = <T extends object>({
         className="pagination"
         current={page}
         pageSize={size}
+        showSizeChanger
         onChange={handlePageChange}
         total={totalElements}
       />
@@ -41,43 +42,8 @@ const TableContent = <T extends object>({
 export default TableContent;
 
 const Box = styled.div`
-  padding: 40px 0px;
-  width: 90%;
+  width: 80%;
   position: relative;
-  .bottom {
-    display: flex;
-    justify-content: space-between;
-    @media (max-width: 640px) {
-      flex-direction: column;
-      gap: 16px;
-    }
-    .search-box {
-      display: flex;
-      gap: 8px;
-      @media (max-width: 480px) {
-        flex-direction: column;
-        align-items: center;
-        .ant-form-item {
-          margin-bottom: 4px;
-        }
-      }
-      .select {
-        min-width: 100px;
-      }
-      .input {
-        min-width: 184px;
-      }
-      .ant-form-item-explain-error {
-        min-width: 184px;
-      }
-    }
-  }
-
-  .btn-box {
-    position: absolute;
-    top: -4px;
-    right: 0px;
-  }
 
   .table {
     margin-bottom: 40px;
@@ -88,12 +54,16 @@ const Box = styled.div`
     display: flex;
     justify-content: flex-end;
   }
-  thead {
-    th:first-child {
-      text-align: center;
+
+  .ant-table-thead {
+    tr {
+      th {
+        text-align: center;
+      }
     }
   }
-  td:first-child {
+
+  .ant-table-cell {
     text-align: center;
   }
 `;
