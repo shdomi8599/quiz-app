@@ -21,7 +21,6 @@ export interface ResultItem {
 
 export interface ResultTableItem {
   label: string;
-  span: number;
   content: string | number;
 }
 
