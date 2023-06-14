@@ -124,12 +124,17 @@ const QuizPage = () => {
 
     const resultTableItems = [
       { label: "아이디", span: 6, content: userId },
-      { label: "정답 수", span: 3, content: `${correctCount}개` },
-      { label: "오답 수", span: 3, content: `${wrongCount}개` },
+      { label: "정답 수", span: 3, content: correctCount },
+      { label: "오답 수", span: 3, content: wrongCount },
       {
         label: "소요 시간",
-        span: 6,
-        content: `${elapsedTime}초 / ${quizLevel * secLimit}초`,
+        span: 3,
+        content: elapsedTime,
+      },
+      {
+        label: "전체 시간",
+        span: 3,
+        content: 30 * quizLevel,
       },
     ];
     setResultTableItems(resultTableItems);
@@ -178,10 +183,6 @@ const QuizPage = () => {
   }, [isViewAnswer]);
 
   useEffect(() => {
-    if (isViewAnswer) {
-      return;
-    }
-
     if (sec === 0) {
       return setIsViewAnswer(true);
     }
@@ -193,7 +194,7 @@ const QuizPage = () => {
     return () => {
       clearInterval(interval);
     };
-  }, [sec, isViewAnswer]);
+  }, [sec]);
 
   useEffect(() => {
     resetAnswer();
