@@ -13,7 +13,7 @@ import AppFooter from "./AppFooter";
 function App() {
   const { commonLoading } = useCommonLoading();
   return (
-    <Layout className="layout">
+    <LayoutBox>
       {commonLoading && (
         <LoadingBox>
           <Spin className="spin" />
@@ -26,11 +26,15 @@ function App() {
         ))}
       </Routes>
       <AppFooter />
-    </Layout>
+    </LayoutBox>
   );
 }
 
 export default App;
+
+const LayoutBox = styled(Layout)`
+  min-height: 100vh;
+`;
 
 const LoadingBox = styled.div`
   position: fixed;
