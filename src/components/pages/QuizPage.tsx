@@ -15,6 +15,7 @@ import {
 
 import {
   elapsedTimeState,
+  quizDatasLegnthState,
   quizDatasState,
   quizLevelState,
   resultTableItemsState,
@@ -58,6 +59,8 @@ const QuizPage = () => {
   );
 
   const quizDatas = useRecoilValue(quizDatasState);
+
+  const quizDatasLegnth = useRecoilValue(quizDatasLegnthState);
 
   const progressBarPercent = (sec * 10) / 3;
 
@@ -123,17 +126,15 @@ const QuizPage = () => {
     const correctCount = quizLevel - wrongAnswerQuestionsCount;
 
     const resultTableItems = [
-      { label: "아이디", span: 6, content: userId },
-      { label: "정답 수", span: 3, content: correctCount },
-      { label: "오답 수", span: 3, content: wrongCount },
+      { label: "아이디", content: userId },
+      { label: "정답 수", content: correctCount },
+      { label: "오답 수", content: wrongCount },
       {
         label: "소요 시간",
-        span: 3,
         content: elapsedTime,
       },
       {
         label: "전체 시간",
-        span: 3,
         content: 30 * quizLevel,
       },
     ];
@@ -233,7 +234,7 @@ const QuizPage = () => {
         </Radio.Group>
       </Card>
       {isViewAnswer ? (
-        quizId === quizLevel ? (
+        quizId === quizDatasLegnth ? (
           <Button onClick={navigateToResultPage}>결과 확인</Button>
         ) : (
           <Button onClick={navigateToNextQuiz}>다음 문제</Button>
