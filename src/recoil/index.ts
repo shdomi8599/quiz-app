@@ -1,6 +1,6 @@
 import { atom, selector } from "recoil";
 
-import { QuizData } from "../types";
+import { QuizData, ResultTableItem } from "../types";
 
 export const commonLoadingState = atom({
   key: "commonLoadingState",
@@ -33,4 +33,14 @@ export const wrongAnswerQuestionsCountState = selector({
     const wrongAnswerQuestions = get(wrongAnswerQuestionsState);
     return wrongAnswerQuestions.length;
   },
+});
+
+export const elapsedTimeState = atom({
+  key: "elapsedTimeState",
+  default: 0,
+});
+
+export const resultTableItemsState = atom<ResultTableItem[]>({
+  key: "resultTableItemsState",
+  default: [],
 });
