@@ -3,9 +3,11 @@ import { Button, Result, Input, Form } from "antd";
 import { styled } from "styled-components";
 import { useSetRecoilState } from "recoil";
 
-import { currentNavItemState, userIdState } from "../../recoil";
-import { addDbData } from "../../util/firebase";
+import { currentNavItemState, quizDatasState, userIdState } from "../../recoil";
+import { setDbData } from "../../util/firebase";
 import { generateRandomCode } from "../../util/random";
+import { getQuizDatas } from "../../util/api";
+import { errorAlert } from "../common/Alert";
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -14,18 +16,26 @@ const HomePage = () => {
 
   const setUserId = useSetRecoilState(userIdState);
 
+  const setQuizDatas = useSetRecoilState(quizDatasState);
+
   const onFinish = async (values: { nickname: string }) => {
     const { nickname } = values;
     const code = generateRandomCode(4);
-    const id = nickname + code;
+    const userId = nickname + code;
 
     const userData = {
-      id,
+      userId,
     };
 
-    await addDbData("users", userData).then(() => {
-      setUserId(id);
-      setCurrentNavItem("quiz");
+    await setDbData("users", userId, userData)
+      .then(() => {
+        setUserId(userId);
+        setCurrentNavItem("quiz");
+      })
+      .catch(() => errorAlert("잠시 후에 다시 시도해주세요.", "퀴즈"));
+
+    await getQuizDatas(10).then((datas) => {
+      setQuizDatas(datas);
     });
 
     navigate("/quiz/1");
