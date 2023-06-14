@@ -19,3 +19,10 @@ export const formatResultItemContent = (
     return `${content}초`;
   }
 };
+
+export const formatResultItemSpan = (label: string) => {
+  if (label === "아이디") {
+    return 6;
+  }
+  return 3;
+};
