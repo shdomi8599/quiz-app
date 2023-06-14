@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
 import { Layout } from "antd";
@@ -7,6 +7,7 @@ import { FaBars } from "react-icons/fa";
 
 import {
   currentNavItemState,
+  elapsedTimeState,
   quizDatasState,
   userIdState,
   wrongAnswerQuestionsState,
@@ -29,6 +30,8 @@ const AppHeader = () => {
 
   const [, setWrongAnswerQuestions] = useRecoilState(wrongAnswerQuestionsState);
 
+  const [, setElapsedTime] = useRecoilState(elapsedTimeState);
+
   const [, setQuizDatas] = useRecoilState(quizDatasState);
 
   const [isNav, setIsNav] = useState(false);
@@ -37,7 +40,7 @@ const AppHeader = () => {
   const { pathname } = location;
   const isQuizPage = pathname.includes("quiz");
 
-  const navItemsKeys = Object.keys(NAV_ITEMS);
+  const navItemsKeys = useMemo(() => Object.keys(NAV_ITEMS), []);
   const navItems = navItemsKeys.map((item) => (
     <NavItemBox
       $currentNavItem={currentNavItem}
@@ -49,30 +52,34 @@ const AppHeader = () => {
     </NavItemBox>
   ));
 
-  const handleNavigationToggle = () => {
+  const handleNavigationToggle = useCallback(() => {
     setIsNav((prevIsNav) => !prevIsNav);
-  };
+  }, []);
 
-  const resetState = () => {
+  const resetState = useCallback(() => {
     setUserId("");
     setIsNav(false);
+    setElapsedTime(0);
     setQuizDatas([]);
     setWrongAnswerQuestions([]);
-  };
+  }, []);
 
-  const handleNavItem = (key: string) => {
-    if (isQuizPage) {
-      confirmAlert("정말 포기하시겠습니까?", "퀴즈 포기가")
-        .then(() => {
-          resetState();
-          setCurrentNavItem(key);
-        })
-        .catch(() => {});
-    } else {
-      resetState();
-      setCurrentNavItem(key);
-    }
-  };
+  const handleNavItem = useCallback(
+    (key: string) => {
+      if (isQuizPage) {
+        confirmAlert("정말 포기하시겠습니까?", "퀴즈 포기가")
+          .then(() => {
+            resetState();
+            setCurrentNavItem(key);
+          })
+          .catch(() => {});
+      } else {
+        resetState();
+        setCurrentNavItem(key);
+      }
+    },
+    [isQuizPage]
+  );
 
   useEffect(() => {
     const path = NAV_ITEMS[currentNavItem];
