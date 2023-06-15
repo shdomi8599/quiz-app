@@ -9,6 +9,7 @@ import {
   currentNavItemState,
   elapsedTimeState,
   quizDatasState,
+  userDataState,
   userIdState,
   wrongAnswerQuestionsState,
 } from "../../recoil/atom";
@@ -33,6 +34,8 @@ const AppHeader = () => {
   const [, setElapsedTime] = useRecoilState(elapsedTimeState);
 
   const [, setQuizDatas] = useRecoilState(quizDatasState);
+
+  const [, setUserData] = useRecoilState(userDataState);
 
   const [isNav, setIsNav] = useState(false);
   useOffResize(768, "up", setIsNav); //768px보다 페이지가 커지면 네비를 off하기 위한 hook
@@ -61,13 +64,18 @@ const AppHeader = () => {
     setIsNav(false);
     setElapsedTime(0);
     setQuizDatas([]);
+    setUserData(null);
     setWrongAnswerQuestions([]);
   }, []);
 
-  const handleNavItem = useCallback((key: string) => {
-    setCurrentNavItem(key);
+  //비동기 동작 순서를 고려해서 확실하게 reset 후, 이동시키기 위해 navigate를 useEffect 처리
+  const handleNavItem = (key: string) => {
+    if (currentNavItem === key) {
+      return;
+    }
     resetState();
-  }, []);
+    setCurrentNavItem(key);
+  };
 
   const onClickNavItem = (key: string) => {
     if (isQuizPage) {
@@ -83,6 +91,7 @@ const AppHeader = () => {
 
   useEffect(() => {
     const path = NAV_ITEMS[currentNavItem];
+    //퀴즈 페이지 이동 시, 일어나는 문제를 방지하기 위함
     if (path) {
       navigate(path);
     }
