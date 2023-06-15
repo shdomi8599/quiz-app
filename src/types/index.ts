@@ -14,7 +14,7 @@ export interface UserData {
 
 export interface ResultItem {
   resultId: number;
-  createdAt: string;
+  createdAt: { seconds: number; nanoseconds: number };
   wrongAnswerQuestions: QuizData[];
   resultTableItems: ResultTableItem[];
 }
@@ -24,11 +24,14 @@ export interface ResultTableItem {
   content: string | number;
 }
 
-export interface HomeFormItem {
+export interface MistakeFormItem {
   nickname: string;
+  code?: string;
+}
+
+export interface HomeFormItem extends MistakeFormItem {
   level: number;
   userOption: UserOption;
-  code?: string;
 }
 
 export type UserOption = "new" | "existing";
@@ -38,4 +41,3 @@ export type TableColumn = {
   dataIndex: string;
   key: string;
 };
-
