@@ -1,4 +1,4 @@
-import { Carousel } from "antd";
+import { Button, Carousel, Modal } from "antd";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { useCallback, useEffect, useState } from "react";
 import { styled } from "styled-components";
@@ -25,6 +25,20 @@ const MistakesPage = () => {
 
   //인덱스로 추적
   const [quizPage, setQuizPage] = useState(0);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const showModal = useCallback(() => {
+    setIsModalOpen(true);
+  }, []);
+
+  const handleOk = useCallback(() => {
+    setIsModalOpen(false);
+  }, []);
+
+  const handleCancel = useCallback(() => {
+    setIsModalOpen(false);
+  }, []);
 
   const handleResultChange = useCallback((value: number) => {
     setSelectedResult(value);
@@ -59,21 +73,34 @@ const MistakesPage = () => {
 
   return (
     <>
-      {viewData && (
-        <CarouselBox afterChange={handleQuizChange}>
-          {viewData.wrongAnswerQuestions.map((question, idx) => (
-            <div key={idx} className="card-box">
-              <QuizCard quizData={question} isViewAnswer={true} />
-            </div>
-          ))}
-        </CarouselBox>
-      )}
       <RecordsSearchForm
         resultsData={resultsData}
         handleResultChange={handleResultChange}
         onFinish={onFinish}
         btnName={"오답 조회"}
       />
+      {viewData && (
+        <>
+          <Modal
+            title="Basic Modal"
+            open={isModalOpen}
+            onOk={handleOk}
+            onCancel={handleCancel}
+          ></Modal>
+          <BtnBox>
+            <Button type="primary" onClick={showModal}>
+              오답 노트 작성
+            </Button>
+          </BtnBox>
+          <CarouselBox afterChange={handleQuizChange}>
+            {viewData.wrongAnswerQuestions.map((question, idx) => (
+              <div key={idx} className="card-box">
+                <QuizCard quizData={question} isViewAnswer={true} />
+              </div>
+            ))}
+          </CarouselBox>
+        </>
+      )}
     </>
   );
 };
@@ -81,8 +108,8 @@ const MistakesPage = () => {
 export default MistakesPage;
 
 const CarouselBox = styled(Carousel)`
-  padding: 80px calc((100% - 960px) / 2);
-  padding-top: 200px;
+  padding: 120px calc((100% - 960px) / 2);
+  padding-top: 40px;
 
   .card-box {
     padding: 0px 60px;
@@ -107,4 +134,10 @@ const CarouselBox = styled(Carousel)`
       }
     }
   }
+`;
+
+const BtnBox = styled.div`
+  padding: 0px calc((100% - 960px) / 2);
+  display: flex;
+  justify-content: center;
 `;
