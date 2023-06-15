@@ -80,6 +80,7 @@ const Box = styled.main`
   display: flex;
   flex-direction: column;
   gap: 40px;
+  margin: 20px 0px;
 
   .select {
     width: 90%;

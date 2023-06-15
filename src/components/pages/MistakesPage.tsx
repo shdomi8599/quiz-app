@@ -154,6 +154,7 @@ const CarouselBox = styled(Carousel)`
 
   .card-box {
     padding: 0px 60px;
+
     .ant-card {
       height: 400px;
       width: 100%;
@@ -178,7 +179,7 @@ const CarouselBox = styled(Carousel)`
 `;
 
 const BtnBox = styled.div`
-  padding: 0px calc((100% - 960px) / 2);
+  padding: 20px calc((100% - 960px) / 2);
   display: flex;
   justify-content: center;
 `;

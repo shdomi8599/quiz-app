@@ -122,5 +122,5 @@ const CardBox = styled(Card)<CardBoxProps>`
 const MistakeBox = styled.div`
   display: flex;
   justify-content: center;
-  padding-top: 40px;
+  padding-top: 20px;
 `;
