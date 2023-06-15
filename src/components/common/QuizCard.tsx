@@ -7,7 +7,7 @@ import { shuffleDatas } from "../../util/random";
 
 type Props = {
   handleSelectedAnswer?: (e: RadioChangeEvent) => void;
-  selectedAnswer: string;
+  selectedAnswer?: string;
   isViewAnswer: boolean;
   quizData: QuizData;
 };
