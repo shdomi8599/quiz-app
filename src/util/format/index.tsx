@@ -1,5 +1,6 @@
-import CopyBtn from "../../components/btn/CopyBtn";
 import { ResultItem, UserData } from "../../types";
+
+import CopyBtn from "../../components/btn/CopyBtn";
 
 export const formatResultItemContent = (
   label: string,
