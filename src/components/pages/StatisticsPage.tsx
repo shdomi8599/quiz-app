@@ -3,7 +3,7 @@ import { styled } from "styled-components";
 import { useGetUsersData } from "../../hooks/user/useGetUsersData";
 
 const StatisticsPage = () => {
-  const { loading, usersData } = useGetUsersData();
+  const { usersData } = useGetUsersData();
 
   console.log(usersData);
   return <Box>통계페이지입니다.</Box>;

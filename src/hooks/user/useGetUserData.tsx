@@ -8,7 +8,7 @@ import { useLoadingAndError } from "../useLoadingAndError";
 import { resultsDataState } from "../../recoil/selector";
 
 export const useGetUserData = () => {
-  const { loading, handleLoading, handleError } = useLoadingAndError();
+  const { handleLoading, handleError } = useLoadingAndError();
 
   const [userData, setUserData] = useRecoilState(userDataState);
 
