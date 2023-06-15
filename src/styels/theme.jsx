@@ -13,7 +13,7 @@ const mediaQueries = {
 const colors = {
   main: "#001529",
   mainHover: "#1677ff",
-  sub: "#72e9df",
+  sub: "#1677ff",
 };
 
 const theme = {

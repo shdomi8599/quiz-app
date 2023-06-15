@@ -1,4 +1,5 @@
 import { styled } from "styled-components";
+
 import useGetUserDatas from "../../hooks/useGetUserDatas";
 
 const StatisticsPage = () => {

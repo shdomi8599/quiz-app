@@ -21,3 +21,8 @@ main {
 :root {
   font-size: 13px;
 }
+
+/* 오답 노트 페이지 carousel */
+.ant-carousel {
+  flex: 1;
+}

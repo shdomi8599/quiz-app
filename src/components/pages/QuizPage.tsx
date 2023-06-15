@@ -1,17 +1,9 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { css, keyframes, styled } from "styled-components";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { decode } from "he";
-import {
-  Button,
-  Card,
-  Space,
-  Radio,
-  RadioChangeEvent,
-  Badge,
-  Progress,
-} from "antd";
+import { Button, RadioChangeEvent, Progress } from "antd";
 
 import {
   elapsedTimeState,
@@ -25,11 +17,11 @@ import {
   wrongAnswerQuestionsCountState,
 } from "../../recoil/selector";
 import { getDbDataByDocName, setDbData } from "../../util/firebase";
-import { shuffleDatas } from "../../util/random";
 import { ResultItem, UserData } from "../../types";
 import { useRedirectAndBack } from "../../hooks/useRedirectAndBack";
 import { useCommonLoading } from "../../hooks/useCommonLoading";
 import { errorAlert } from "../common/Alert";
+import QuizCard from "../common/QuizCard";
 
 const QuizPage = () => {
   const { handleCommonLoading } = useCommonLoading();
@@ -86,18 +78,6 @@ const QuizPage = () => {
     : ((quizId - 1) * 100) / quizLevel;
 
   const quizData = quizDatas[quizId - 1];
-
-  const quizTitle = quizData ? decode(quizData?.question) : "";
-
-  const correctAnswer = quizData ? decode(quizData?.correct_answer) : "";
-
-  const wrongAnswer =
-    quizData?.incorrect_answers?.map((answer) => decode(answer)) || [];
-
-  const answers = useMemo(
-    () => shuffleDatas([...wrongAnswer, correctAnswer]),
-    [quizData]
-  );
 
   const handleSelectedAnswer = useCallback((e: RadioChangeEvent) => {
     setSelectedAnswer(e.target.value);
@@ -174,6 +154,8 @@ const QuizPage = () => {
       setElapsedTime((prev) => prev + newElapsedTime);
     }
 
+    const correctAnswer = quizData ? decode(quizData?.correct_answer) : "";
+
     const isWrongAnswer =
       selectedAnswer !== "" && selectedAnswer !== correctAnswer;
 
@@ -216,29 +198,12 @@ const QuizPage = () => {
         />
         <span className="custom-sec">{sec}초</span>
       </ProgressBarBox>
-      <Card className="card" title={<div>{quizTitle}</div>} bordered={false}>
-        <Radio.Group onChange={handleSelectedAnswer} value={selectedAnswer}>
-          <Space direction="vertical">
-            {answers.map((answer) => (
-              <Badge.Ribbon
-                key={answer}
-                placement="start"
-                text={correctAnswer === answer ? "정답" : "오답"}
-                color={correctAnswer === answer ? "blue" : "red"}
-              >
-                <Radio
-                  className="radio-box"
-                  key={answer}
-                  value={answer}
-                  disabled={isViewAnswer}
-                >
-                  {answer}
-                </Radio>
-              </Badge.Ribbon>
-            ))}
-          </Space>
-        </Radio.Group>
-      </Card>
+      <QuizCard
+        handleSelectedAnswer={handleSelectedAnswer}
+        selectedAnswer={selectedAnswer}
+        isViewAnswer={isViewAnswer}
+        quizData={quizData}
+      />
       {isViewAnswer ? (
         quizId === quizDatasLegnth ? (
           <Button onClick={navigateToResultPage}>결과 확인</Button>
@@ -262,21 +227,6 @@ const Box = styled.main<BoxProps>`
   display: flex;
   flex-direction: column;
   gap: 40px;
-
-  .card {
-    width: 70%;
-    height: auto;
-
-    .ant-card-head-title {
-      white-space: normal;
-    }
-
-    .ant-ribbon {
-      display: ${({ $isViewAnswer }) => ($isViewAnswer ? "display" : "none")};
-      top: 20px;
-      left: -33px;
-    }
-  }
 
   .ant-radio-group {
     width: 100%;
