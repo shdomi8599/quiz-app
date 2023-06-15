@@ -140,8 +140,6 @@ const QuizPage = () => {
         content: 30 * quizLevel,
       },
     ];
-    setResultTableItems(resultTableItems);
-
     const userData = await getDbDataByDocName<UserData>("users", userId);
 
     const createdAt = new Date();
@@ -162,6 +160,8 @@ const QuizPage = () => {
       : { userId, results: [newResult] };
 
     await setDbData("users", userId, newData);
+
+    setResultTableItems(resultTableItems);
 
     handleCommonLoading();
 

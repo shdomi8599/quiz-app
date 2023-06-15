@@ -2,13 +2,15 @@ import { useRecoilState } from "recoil";
 import { useCallback, useEffect } from "react";
 
 import { useCommonLoading } from "./useCommonLoading";
-import { userDatasState } from "../recoil/atom";
+import { resultTableItemsState, userDatasState } from "../recoil/atom";
 import { UserData } from "../types";
 import { getDbAllData } from "../util/firebase";
 import { errorAlert } from "../components/common/Alert";
 
 const useGetUserDatas = () => {
   const { commonLoading, handleCommonLoading } = useCommonLoading();
+
+  const [resultTableItems] = useRecoilState(resultTableItemsState);
 
   const [usersData, setUsersData] = useRecoilState(userDatasState);
 
@@ -31,6 +33,11 @@ const useGetUserDatas = () => {
 
     fetchData();
   }, []);
+
+  //유저가 결과조회까지 마치게되면 새로운 서버 데이터를 갖고 올 수 있도록
+  useEffect(() => {
+    fetchData();
+  }, [resultTableItems]);
 
   return {
     commonLoading,
