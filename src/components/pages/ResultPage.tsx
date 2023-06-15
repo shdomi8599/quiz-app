@@ -1,14 +1,11 @@
 import { useEffect } from "react";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import { Descriptions, Result } from "antd";
 import { SmileOutlined } from "@ant-design/icons";
 import { styled } from "styled-components";
 
-import {
-  currentNavItemState,
-  resultTableItemsState,
-  wrongAnswerQuestionsCountState,
-} from "../../recoil";
+import { wrongAnswerQuestionsCountState } from "../../recoil/selector";
+import { resultTableItemsState } from "../../recoil/atom";
 import {
   formatResultItemContent,
   formatResultItemSpan,

@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useRecoilValue } from "recoil";
 import { useNavigate } from "react-router-dom";
 
-import { userIdState } from "../recoil";
+import { userIdState } from "../recoil/atom";
 
 export const useRedirectAndBack = () => {
   const userId = useRecoilValue(userIdState);

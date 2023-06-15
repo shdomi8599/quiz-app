@@ -1,4 +1,4 @@
-import { atom, selector } from "recoil";
+import { atom } from "recoil";
 
 import { QuizData, ResultTableItem, UserData } from "../types";
 
@@ -27,25 +27,9 @@ export const quizDatasState = atom<QuizData[]>({
   default: [],
 });
 
-export const quizDatasLegnthState = selector({
-  key: "quizDatasLegnthState",
-  get: ({ get }) => {
-    const quizDatas = get(quizDatasState);
-    return quizDatas.length;
-  },
-});
-
 export const wrongAnswerQuestionsState = atom<QuizData[]>({
   key: "wrongAnswerQuestionsState",
   default: [],
-});
-
-export const wrongAnswerQuestionsCountState = selector({
-  key: "wrongAnswerQuestionsCountState",
-  get: ({ get }) => {
-    const wrongAnswerQuestions = get(wrongAnswerQuestionsState);
-    return wrongAnswerQuestions.length;
-  },
 });
 
 export const elapsedTimeState = atom({

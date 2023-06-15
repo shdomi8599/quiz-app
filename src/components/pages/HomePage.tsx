@@ -9,8 +9,8 @@ import {
   quizDatasState,
   quizLevelState,
   userIdState,
-} from "../../recoil";
-import { getDbDataByDocName, setDbData } from "../../util/firebase";
+} from "../../recoil/atom";
+import { getDbDataByDocName } from "../../util/firebase";
 import { generateRandomCode } from "../../util/random";
 import { getQuizDatas } from "../../util/api";
 import { errorAlert } from "../common/Alert";
@@ -89,7 +89,7 @@ const HomePage = () => {
       return handleError("퀴즈");
     }
 
-    setCurrentNavItem("퀴즈"); //네비 디폴트가 홈이다보니 퀴즈 중 다른 페이지로 이동했을 때, 한 번씩 밀리는 현상을 막기 위함
+    setCurrentNavItem("퀴즈"); //네비 디폴트가 홈이다보니 퀴즈 중 다른 페이지로 이동했을 때, 홈으로 고정되어버리는 문제를 막기 위함
 
     handleCommonLoading();
 

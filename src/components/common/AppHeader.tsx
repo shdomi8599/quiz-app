@@ -11,7 +11,7 @@ import {
   quizDatasState,
   userIdState,
   wrongAnswerQuestionsState,
-} from "../../recoil";
+} from "../../recoil/atom";
 import { useOffResize } from "../../hooks/useOffResize";
 import { NAV_ITEMS } from "../../constants";
 import { confirmAlert } from "./Alert";

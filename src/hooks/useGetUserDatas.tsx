@@ -2,7 +2,7 @@ import { useRecoilState } from "recoil";
 import { useCallback, useEffect } from "react";
 
 import { useCommonLoading } from "./useCommonLoading";
-import { userDatasState } from "../recoil";
+import { userDatasState } from "../recoil/atom";
 import { UserData } from "../types";
 import { getDbAllData } from "../util/firebase";
 import { errorAlert } from "../components/common/Alert";

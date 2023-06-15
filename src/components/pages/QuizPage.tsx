@@ -15,13 +15,15 @@ import {
 
 import {
   elapsedTimeState,
-  quizDatasLegnthState,
   quizDatasState,
   quizLevelState,
   resultTableItemsState,
-  wrongAnswerQuestionsCountState,
   wrongAnswerQuestionsState,
-} from "../../recoil";
+} from "../../recoil/atom";
+import {
+  quizDatasLegnthState,
+  wrongAnswerQuestionsCountState,
+} from "../../recoil/selector";
 import { getDbDataByDocName, setDbData } from "../../util/firebase";
 import { shuffleDatas } from "../../util/random";
 import { ResultItem, UserData } from "../../types";
