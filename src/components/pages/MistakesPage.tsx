@@ -1,23 +1,15 @@
 import { Button, Carousel, Modal } from "antd";
-import { useRecoilState, useRecoilValue } from "recoil";
 import { useCallback, useEffect, useState } from "react";
 import { styled } from "styled-components";
 
-import { userDataState } from "../../recoil/atom";
-import { resultsDataState } from "../../recoil/selector";
-import { getDbDataByDocName } from "../../util/firebase";
-import { RecordsSearchFormItem, ResultItem, UserData } from "../../types";
-import { useLoadingAndError } from "../../hooks/useLoadingAndError";
+import { useGetUserData } from "../../hooks/user/useGetUserData";
+import { ResultItem } from "../../types";
 
 import QuizCard from "../card/QuizCard";
 import RecordsSearchForm from "../form/RecordsSearchForm";
 
 const MistakesPage = () => {
-  const { handleLoading, handleError } = useLoadingAndError();
-
-  const [, setUserData] = useRecoilState(userDataState);
-
-  const resultsData = useRecoilValue(resultsDataState);
+  const { onFinish, resultsData, userId } = useGetUserData();
 
   const [viewData, setViewData] = useState<ResultItem>();
 
@@ -46,23 +38,6 @@ const MistakesPage = () => {
 
   const handleQuizChange = useCallback((currentSlide: number) => {
     setQuizPage(currentSlide);
-  }, []);
-
-  const onFinish = useCallback(async (values: RecordsSearchFormItem) => {
-    handleLoading();
-    const { nickname, code } = values;
-
-    const userId = nickname + code;
-
-    const dbUserData = await getDbDataByDocName<UserData>("users", userId);
-
-    if (dbUserData) {
-      setUserData(dbUserData);
-    } else {
-      return handleError("유저");
-    }
-
-    handleLoading();
   }, []);
 
   useEffect(() => {
