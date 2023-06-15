@@ -2,20 +2,14 @@ import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Result, Input, Form, Radio, RadioChangeEvent } from "antd";
 import { styled } from "styled-components";
-import { useSetRecoilState } from "recoil";
 
-import {
-  currentNavItemState,
-  quizDatasState,
-  quizLevelState,
-  userIdState,
-} from "../../recoil/atom";
 import { getDbDataByDocName } from "../../util/firebase";
 import { generateRandomCode } from "../../util/random";
 import { getQuizDatas } from "../../util/api";
 import { useLoadingAndError } from "../../hooks/useLoadingAndError";
 import { QUIZ_LEVEL_ITEMS, QUIZ_UESR_OPTIONS } from "../../constants";
 import { HomeFormItem, UserData, UserOption } from "../../types";
+import { useSetQuizAppState } from "../../hooks/useSetQuizAppState";
 
 const HomePage = () => {
   const { handleLoading, handleError } = useLoadingAndError();
@@ -24,13 +18,8 @@ const HomePage = () => {
 
   const [userOption, setUserOption] = useState<UserOption>("new");
 
-  const setCurrentNavItem = useSetRecoilState(currentNavItemState);
-
-  const setUserId = useSetRecoilState(userIdState);
-
-  const setQuizDatas = useSetRecoilState(quizDatasState);
-
-  const setQuizLevel = useSetRecoilState(quizLevelState);
+  const { setCurrentNavItem, setUserId, setQuizDatas, setQuizLevel } =
+    useSetQuizAppState();
 
   const isExistingUser = userOption === "existing";
 

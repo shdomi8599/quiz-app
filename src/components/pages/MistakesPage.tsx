@@ -97,8 +97,8 @@ const MistakesPage = () => {
   );
 
   useEffect(() => {
-    if (resultsData) {
-      setViewData(resultsData[selectedResult as number]);
+    if (resultsData && selectedResult) {
+      setViewData(resultsData[selectedResult]);
     }
   }, [selectedResult, resultsData]);
 

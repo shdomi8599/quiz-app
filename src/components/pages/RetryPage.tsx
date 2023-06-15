@@ -1,20 +1,31 @@
+import { useEffect } from "react";
 import { styled } from "styled-components";
 
 import { useGetUserData } from "../../hooks/user/useGetUserData";
+import { useSetQuizAppState } from "../../hooks/useSetQuizAppState";
 
 import RecordsSearchForm from "../form/RecordsSearchForm";
 
 const RetryPage = () => {
   const {
     userId,
-    userData,
     resultsData,
     selectedResult,
     onFinish,
-    refetch,
     handleLoading,
     handleResultChange,
   } = useGetUserData();
+
+  const { setCurrentNavItem, setUserId, setQuizDatas, setQuizLevel } =
+    useSetQuizAppState();
+
+  useEffect(() => {
+    if (resultsData && selectedResult) {
+      const targetResultData = resultsData[selectedResult];
+      const { wrongAnswerQuestions } = targetResultData;
+      setCurrentNavItem("재도전");
+    }
+  }, [selectedResult]);
 
   return (
     <>
