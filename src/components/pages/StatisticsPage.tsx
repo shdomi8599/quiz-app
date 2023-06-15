@@ -1,9 +1,9 @@
 import { styled } from "styled-components";
 
-import { useGetUserDatas } from "../../hooks/useGetUserDatas";
+import { useGetUsersData } from "../../hooks/useGetUsersData";
 
 const StatisticsPage = () => {
-  const { loading, usersData } = useGetUserDatas();
+  const { loading, usersData } = useGetUsersData();
 
   console.log(usersData);
   return <Box>통계페이지입니다.</Box>;

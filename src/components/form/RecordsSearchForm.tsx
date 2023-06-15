@@ -3,13 +3,13 @@ import { useMemo } from "react";
 import { styled } from "styled-components";
 
 import { formatDate } from "../../util/format";
-import { MistakeFormItem, ResultItem } from "../../types";
+import { RecordsSearchFormItem, ResultItem } from "../../types";
 
 type Props = {
   resultsData?: ResultItem[];
   handleResultChange: (value: number) => void;
   btnName: string;
-  onFinish: (values: MistakeFormItem) => Promise<void>;
+  onFinish: (values: RecordsSearchFormItem) => Promise<void>;
 };
 
 const RecordsSearchForm = ({

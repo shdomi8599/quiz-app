@@ -6,7 +6,7 @@ import { styled } from "styled-components";
 import { userDataState } from "../../recoil/atom";
 import { resultsDataState } from "../../recoil/selector";
 import { getDbDataByDocName } from "../../util/firebase";
-import { MistakeFormItem, ResultItem, UserData } from "../../types";
+import { RecordsSearchFormItem, ResultItem, UserData } from "../../types";
 import { useLoadingAndError } from "../../hooks/useLoadingAndError";
 
 import QuizCard from "../card/QuizCard";
@@ -48,7 +48,7 @@ const MistakesPage = () => {
     setQuizPage(currentSlide);
   }, []);
 
-  const onFinish = useCallback(async (values: MistakeFormItem) => {
+  const onFinish = useCallback(async (values: RecordsSearchFormItem) => {
     handleLoading();
     const { nickname, code } = values;
 

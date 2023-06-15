@@ -3,13 +3,13 @@ import { styled } from "styled-components";
 
 import { UserData } from "../../types";
 import { RANKING_COLUMNS } from "../../constants";
-import { useGetUserDatas } from "../../hooks/useGetUserDatas";
+import { useGetUsersData } from "../../hooks/useGetUsersData";
 
 import TableContent from "../table/TableContent";
 import TableSkeleton from "../skeleton/TableSkeleton";
 
 const RankingPage = () => {
-  const { loading, usersData } = useGetUserDatas();
+  const { loading, usersData } = useGetUsersData();
 
   const [page, setPage] = useState(1);
 

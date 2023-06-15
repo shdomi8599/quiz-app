@@ -24,12 +24,12 @@ export interface ResultTableItem {
   content: string | number;
 }
 
-export interface MistakeFormItem {
+export interface RecordsSearchFormItem {
   nickname: string;
   code?: string;
 }
 
-export interface HomeFormItem extends MistakeFormItem {
+export interface HomeFormItem extends RecordsSearchFormItem {
   level: number;
   userOption: UserOption;
 }
