@@ -7,6 +7,7 @@ import {
   RadioChangeEvent,
   Space,
 } from "antd";
+import { useLocation } from "react-router-dom";
 import { useMemo } from "react";
 import { styled } from "styled-components";
 import { decode } from "he";
@@ -30,6 +31,12 @@ const QuizCard = ({
   isViewAnswer,
   quizId,
 }: Props) => {
+  const location = useLocation();
+
+  const { pathname } = location;
+
+  const isMistakePage = pathname.includes("mistake");
+
   const { isModalOpen, handleModalCancel, showModal } = useModalUtil({});
 
   const handleModalOk = () => {
@@ -42,8 +49,6 @@ const QuizCard = ({
 
   const wrongAnswer =
     quizData?.incorrect_answers?.map((answer) => decode(answer)) || [];
-
-  const { mistakeNote } = quizData;
 
   const answers = useMemo(
     () => shuffleDatas([...wrongAnswer, correctAnswer]),
@@ -78,7 +83,7 @@ const QuizCard = ({
           </Space>
         </Radio.Group>
       </CardBox>
-      {mistakeNote && (
+      {quizData?.mistakeNote && isMistakePage && (
         <>
           <MistakeBox>
             <Button onClick={showModal} type="primary">
@@ -91,7 +96,7 @@ const QuizCard = ({
             onOk={handleModalOk}
             onCancel={handleModalCancel}
           >
-            {mistakeNote}
+            {quizData?.mistakeNote}
           </Modal>
         </>
       )}

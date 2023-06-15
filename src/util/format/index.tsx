@@ -72,3 +72,15 @@ export const formatSelectItems = (resultsData: ResultItem[]) => {
     };
   });
 };
+
+export const formatCircleProgressPercent = (
+  quizId: number,
+  quizLevel: number,
+  isViewAnswer: boolean
+) => {
+  const progressPercent = isViewAnswer
+    ? (quizId * 100) / quizLevel
+    : ((quizId - 1) * 100) / quizLevel;
+
+  return parseFloat(progressPercent.toFixed(1));
+};

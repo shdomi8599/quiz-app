@@ -1,10 +1,10 @@
+import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
 import { useGetUserData } from "../../hooks/user/useGetUserData";
 import { useSetQuizAppState } from "../../hooks/useSetQuizAppState";
 
 import RecordsSearchForm from "../form/RecordsSearchForm";
-import { useNavigate } from "react-router-dom";
 
 const RetryPage = () => {
   const navigate = useNavigate();

@@ -6,6 +6,7 @@ import { decode } from "he";
 import { Button, RadioChangeEvent, Progress } from "antd";
 
 import {
+  currentNavItemState,
   elapsedTimeState,
   quizDatasState,
   quizLevelState,
@@ -16,10 +17,11 @@ import {
   quizDatasLegnthState,
   wrongAnswerQuestionsCountState,
 } from "../../recoil/selector";
+import { formatCircleProgressPercent } from "../../util/format";
 import { getDbDataByDocName, setDbData } from "../../util/firebase";
-import { ResultItem, UserData } from "../../types";
 import { useRedirectAndBack } from "../../hooks/useRedirectAndBack";
 import { useLoadingAndError } from "../../hooks/useLoadingAndError";
+import { ResultItem, UserData } from "../../types";
 import { errorAlert } from "../common/Alert";
 
 import QuizCard from "../card/QuizCard";
@@ -32,30 +34,27 @@ const QuizPage = () => {
   const { id } = useParams();
 
   const secLimit = 30;
-
   const [sec, setSec] = useState(secLimit);
 
   const [isViewAnswer, setIsViewAnswer] = useState(false);
-
   const [selectedAnswer, setSelectedAnswer] = useState("");
 
   const quizLevel = useRecoilValue(quizLevelState);
-
-  const [, setResultTableItems] = useRecoilState(resultTableItemsState);
-
+  const quizDatas = useRecoilValue(quizDatasState);
+  const quizDatasLegnth = useRecoilValue(quizDatasLegnthState);
   const wrongAnswerQuestionsCount = useRecoilValue(
     wrongAnswerQuestionsCountState
   );
+
+  const currentNavItem = useRecoilValue(currentNavItemState);
+
+  const [, setResultTableItems] = useRecoilState(resultTableItemsState);
 
   const [elapsedTime, setElapsedTime] = useRecoilState(elapsedTimeState);
 
   const [wrongAnswerQuestions, setWrongAnswerQuestions] = useRecoilState(
     wrongAnswerQuestionsState
   );
-
-  const quizDatas = useRecoilValue(quizDatasState);
-
-  const quizDatasLegnth = useRecoilValue(quizDatasLegnthState);
 
   const progressBarPercent = (sec * 10) / 3;
 
@@ -74,9 +73,11 @@ const QuizPage = () => {
 
   const quizId = Number(id);
 
-  const circleProgressPercent = isViewAnswer
-    ? (quizId * 100) / quizLevel
-    : ((quizId - 1) * 100) / quizLevel;
+  const circleProgressPercent = formatCircleProgressPercent(
+    quizId,
+    quizLevel,
+    isViewAnswer
+  );
 
   const quizData = quizDatas[quizId - 1];
 
@@ -121,6 +122,15 @@ const QuizPage = () => {
         content: 30 * quizLevel,
       },
     ];
+    setResultTableItems(resultTableItems);
+
+    //재도전이라면 리턴되도록
+    if (currentNavItem === "재도전") {
+      handleLoading();
+
+      return navigate(`/result`);
+    }
+
     const userData = await getDbDataByDocName<UserData>("users", userId);
 
     const createdAt = new Date();
@@ -141,8 +151,6 @@ const QuizPage = () => {
       : { userId, results: [newResult] };
 
     await setDbData("users", userId, newData);
-
-    setResultTableItems(resultTableItems);
 
     handleLoading();
 
