@@ -1,6 +1,6 @@
 import { styled } from "styled-components";
 
-import { useGetUsersData } from "../../hooks/useGetUsersData";
+import { useGetUsersData } from "../../hooks/user/useGetUsersData";
 
 const StatisticsPage = () => {
   const { loading, usersData } = useGetUsersData();

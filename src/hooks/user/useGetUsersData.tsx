@@ -1,11 +1,11 @@
 import { useRecoilState } from "recoil";
 import { useCallback, useEffect } from "react";
 
-import { resultTableItemsState, userDatasState } from "../recoil/atom";
-import { UserData } from "../types";
-import { getDbAllData } from "../util/firebase";
-import { errorAlert } from "../components/common/Alert";
-import { useLoadingAndError } from "./useLoadingAndError";
+import { resultTableItemsState, userDatasState } from "../../recoil/atom";
+import { UserData } from "../../types";
+import { getDbAllData } from "../../util/firebase";
+import { errorAlert } from "../../components/common/Alert";
+import { useLoadingAndError } from "../useLoadingAndError";
 
 export const useGetUsersData = () => {
   const { loading, handleLoading } = useLoadingAndError();

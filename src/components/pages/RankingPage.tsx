@@ -3,7 +3,7 @@ import { styled } from "styled-components";
 
 import { UserData } from "../../types";
 import { RANKING_COLUMNS } from "../../constants";
-import { useGetUsersData } from "../../hooks/useGetUsersData";
+import { useGetUsersData } from "../../hooks/user/useGetUsersData";
 
 import TableContent from "../table/TableContent";
 import TableSkeleton from "../skeleton/TableSkeleton";
