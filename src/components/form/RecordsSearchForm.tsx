@@ -77,17 +77,18 @@ const RecordsSearchForm = ({
 export default RecordsSearchForm;
 
 const Box = styled.main`
-  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 40px;
 
   .select {
-    width: 40%;
+    width: 90%;
+    max-width: 500px;
   }
 
   form {
-    width: 40%;
+    max-width: 350px;
+    width: 90%;
     display: flex;
     flex-direction: column;
     gap: 10px;
