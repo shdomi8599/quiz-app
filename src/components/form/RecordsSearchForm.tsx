@@ -5,6 +5,7 @@ import { styled } from "styled-components";
 import { formatSelectItems } from "../../util/format";
 import { RecordsSearchFormItem, ResultItem } from "../../types";
 import { useLocation } from "react-router-dom";
+import { FORM_NICKNAME_RULES } from "../../constants";
 
 type Props = {
   resultsData?: ResultItem[];
@@ -60,15 +61,7 @@ const RecordsSearchForm = ({
         </>
       ) : (
         <Form autoComplete="off" onFinish={onFinish}>
-          <Form.Item
-            name="nickname"
-            rules={[
-              {
-                required: true,
-                message: "닉네임을 입력해야 조회할 수 있습니다.",
-              },
-            ]}
-          >
+          <Form.Item name="nickname" rules={FORM_NICKNAME_RULES}>
             <Input maxLength={10} placeholder="닉네임을 입력해주세요." />
           </Form.Item>
           <Form.Item

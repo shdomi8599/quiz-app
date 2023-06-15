@@ -52,3 +52,14 @@ export const RANKING_COLUMNS = [
     key: "accumulateAnswers",
   },
 ];
+
+export const FORM_NICKNAME_RULES = [
+  {
+    required: true,
+    message: "닉네임을 입력해야 합니다.",
+  },
+  {
+    pattern: /^[^\s]+$/,
+    message: "닉네임에는 공백을 포함할 수 없습니다.",
+  },
+];

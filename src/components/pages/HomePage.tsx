@@ -7,7 +7,11 @@ import { getDbDataByDocName } from "../../util/firebase";
 import { generateRandomCode } from "../../util/random";
 import { getQuizDatas } from "../../util/api";
 import { useLoadingAndError } from "../../hooks/useLoadingAndError";
-import { QUIZ_LEVEL_ITEMS, QUIZ_UESR_OPTIONS } from "../../constants";
+import {
+  FORM_NICKNAME_RULES,
+  QUIZ_LEVEL_ITEMS,
+  QUIZ_UESR_OPTIONS,
+} from "../../constants";
 import { HomeFormItem, UserData, UserOption } from "../../types";
 import { useSetQuizAppState } from "../../hooks/useSetQuizAppState";
 
@@ -95,15 +99,7 @@ const HomePage = () => {
                 ))}
               </Radio.Group>
             </Form.Item>
-            <Form.Item
-              name="nickname"
-              rules={[
-                {
-                  required: true,
-                  message: "닉네임을 입력해야 참가할 수 있습니다.",
-                },
-              ]}
-            >
+            <Form.Item name="nickname" rules={FORM_NICKNAME_RULES}>
               <Input maxLength={10} placeholder="닉네임을 입력해주세요." />
             </Form.Item>
             {isExistingUser && (

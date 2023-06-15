@@ -3,6 +3,7 @@ import { styled } from "styled-components";
 
 import { useGetUsersData } from "../../hooks/user/useGetUsersData";
 import { ResultTableItem } from "../../types";
+
 import StatisticsChart from "../chart/StatisticsChart";
 
 const StatisticsPage = () => {
