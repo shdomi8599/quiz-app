@@ -1,4 +1,5 @@
 import CopyBtn from "../../components/btn/CopyBtn";
+import { ResultItem, UserData } from "../../types";
 
 export const formatResultItemContent = (
   label: string,
@@ -27,11 +28,6 @@ export const formatResultItemSpan = (label: string) => {
   return 3;
 };
 
-/**
- * 날짜를 입력받아 포맷팅에 맞게 날짜를 리턴해주는 함수, 작성일자에 활용
- * @param date
- * @returns 예시 2023년 4월 1일 12시 34분 56초
- */
 export const formatDate = (date: Date): string => {
   const year = date.getFullYear().toString();
   const month = ("0" + (date.getMonth() + 1)).slice(-2);
@@ -40,4 +36,39 @@ export const formatDate = (date: Date): string => {
   const minutes = ("0" + date.getMinutes()).slice(-2);
   const seconds = ("0" + date.getSeconds()).slice(-2);
   return `${year}년 ${month}월 ${day}일 ${hours}시 ${minutes}분 ${seconds}초`;
+};
+
+export const formatUsers = (usersData: UserData[]) => {
+  return usersData?.map((data) => {
+    const userId = data.userId;
+
+    const maskedUserId = userId.slice(0, -3) + "***";
+
+    const userResultsData = data.results;
+
+    const accumulateAnswers = userResultsData?.reduce(
+      (acc, result) =>
+        acc +
+        Number(
+          result.resultTableItems.find((item) => item.label === "정답 수")
+            ?.content
+        ),
+      0
+    );
+    return {
+      key: userId,
+      userId: maskedUserId,
+      accumulateAnswers,
+    };
+  });
+};
+
+export const formatSelectItems = (resultsData: ResultItem[]) => {
+  return resultsData?.map(({ createdAt }, idx) => {
+    const date = formatDate(new Date(createdAt.seconds * 1000));
+    return {
+      value: idx,
+      label: date,
+    };
+  });
 };

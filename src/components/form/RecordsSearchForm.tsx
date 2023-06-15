@@ -2,7 +2,7 @@ import { Button, Form, Input, Result, Select } from "antd";
 import { useMemo } from "react";
 import { styled } from "styled-components";
 
-import { formatDate } from "../../util/format";
+import { formatSelectItems } from "../../util/format";
 import { RecordsSearchFormItem, ResultItem } from "../../types";
 import { useLocation } from "react-router-dom";
 
@@ -27,15 +27,8 @@ const RecordsSearchForm = ({
 
   const selectWord = isRetryPage ? "도전" : "조회";
 
-  const formatSelectItems = useMemo(
-    () =>
-      resultsData?.map(({ createdAt }, idx) => {
-        const date = formatDate(new Date(createdAt.seconds * 1000));
-        return {
-          value: idx,
-          label: date,
-        };
-      }),
+  const selectItemsOptions = useMemo(
+    () => resultsData && formatSelectItems(resultsData),
     [resultsData]
   );
 
@@ -45,15 +38,15 @@ const RecordsSearchForm = ({
         onChange={handleResultChange}
         className="select"
         placeholder={`${selectWord}를 원하는 날짜를 선택해주세요.`}
-        options={formatSelectItems}
+        options={selectItemsOptions}
       />
     ),
-    [formatSelectItems, selectWord]
+    [selectItemsOptions, selectWord]
   );
 
   return (
     <Box>
-      {formatSelectItems ? (
+      {selectItemsOptions ? (
         <>
           {isRetryPage ? (
             <Result

@@ -2,6 +2,7 @@ import { useCallback, useState } from "react";
 import { styled } from "styled-components";
 
 import { UserData } from "../../types";
+import { formatUsers } from "../../util/format";
 import { RANKING_COLUMNS } from "../../constants";
 import { useGetUsersData } from "../../hooks/user/useGetUsersData";
 
@@ -15,31 +16,7 @@ const RankingPage = () => {
 
   const [size, setSize] = useState(10);
 
-  const formatUsers = usersData.map((data) => {
-    const userId = data.userId;
-
-    const maskedUserId = userId.slice(0, -3) + "***";
-
-    const userResultsData = data.results;
-
-    const accumulateAnswers = userResultsData?.reduce(
-      (acc, result) =>
-        acc +
-        Number(
-          result.resultTableItems.find((item) => item.label === "정답 수")
-            ?.content
-        ),
-      0
-    );
-
-    return {
-      key: userId,
-      userId: maskedUserId,
-      accumulateAnswers,
-    };
-  });
-
-  const sortedUsers = formatUsers
+  const sortedUsers = formatUsers(usersData)
     .sort((a, b) => {
       const sumA = a.accumulateAnswers as number;
       const sumB = b.accumulateAnswers as number;
