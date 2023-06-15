@@ -99,6 +99,7 @@ const MistakesPage = () => {
   useEffect(() => {
     if (resultsData) {
       setViewData(resultsData[selectedResult as number]);
+      setQuizCardPage(1);
     }
   }, [selectedResult, resultsData]);
 
