@@ -3,6 +3,7 @@ import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import { styled } from "styled-components";
 
 import { useGetUserData } from "../../hooks/user/useGetUserData";
+import { useModalUtil } from "../../hooks/useModalUtil";
 import { ResultItem } from "../../types";
 import { confirmAlert, errorAlert } from "../common/Alert";
 import { setDbData } from "../../util/firebase";
@@ -18,19 +19,17 @@ const MistakesPage = () => {
 
   const [mistakeContent, setMistakeContent] = useState("");
 
+  const { isModalOpen,  handleModalCancel,showModal } = useModalUtil({
+    setMistakeContent,
+  });
+
   const [viewData, setViewData] = useState<ResultItem>();
 
   const [selectedResult, setSelectedResult] = useState<number>();
 
   const [quizCardPage, setQuizCardPage] = useState(1);
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const showModal = useCallback(() => {
-    setIsModalOpen(true);
-  }, []);
-
-  const handleOk = () => {
+  const handleModalOk = () => {
     confirmAlert("정말 작성하시겠습니까?", "노트 작성이")
       .then(async () => {
         handleLoading();
@@ -68,9 +67,7 @@ const MistakesPage = () => {
           }
         }
 
-        setIsModalOpen(false);
-
-        setMistakeContent("");
+        handleModalCancel();
       })
       .catch(() => {
         errorAlert("잠시 후에 다시 시도해주세요", "노트 작성");
@@ -78,11 +75,6 @@ const MistakesPage = () => {
 
     handleLoading();
   };
-
-  const handleCancel = useCallback(() => {
-    setIsModalOpen(false);
-    setMistakeContent("");
-  }, []);
 
   const handleResultChange = useCallback((value: number) => {
     setSelectedResult(value);
@@ -120,8 +112,8 @@ const MistakesPage = () => {
             open={isModalOpen}
             cancelText={"취소"}
             okText={"작성"}
-            onOk={handleOk}
-            onCancel={handleCancel}
+            onOk={handleModalOk}
+            onCancel={handleModalCancel}
           >
             <TextArea
               value={mistakeContent}
@@ -137,7 +129,7 @@ const MistakesPage = () => {
           <CarouselBox afterChange={handleQuizChange}>
             {viewData.wrongAnswerQuestions.map((question, idx) => (
               <div key={idx} className="card-box">
-                <QuizCard quizData={question} isViewAnswer={true} />
+                <QuizCard quizId={idx+1} quizData={question} isViewAnswer={true} />
               </div>
             ))}
           </CarouselBox>
