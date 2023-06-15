@@ -1,5 +1,5 @@
 import { useRecoilState, useRecoilValue } from "recoil";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback } from "react";
 
 import { userDataState } from "../../recoil/atom";
 import { RecordsSearchFormItem, UserData } from "../../types";
@@ -13,12 +13,6 @@ export const useGetUserData = () => {
   const [userData, setUserData] = useRecoilState(userDataState);
 
   const resultsData = useRecoilValue(resultsDataState);
-
-  const [isRefecth, setIsRefecth] = useState(false);
-
-  const handleIsRefecth = useCallback(() => {
-    setIsRefecth((prev) => !prev);
-  }, []);
 
   const userId = userData?.userId;
 
@@ -46,20 +40,13 @@ export const useGetUserData = () => {
     await fetchData(userId as string);
   }, [userId]);
 
-  useEffect(() => {
-    if (isRefecth) {
-      refetch();
-      setIsRefecth(false);
-    }
-  }, [isRefecth]);
-
   return {
     loading,
     resultsData,
     userId,
     onFinish,
     handleLoading,
-    handleIsRefecth,
+    refetch,
     userData,
   };
 };

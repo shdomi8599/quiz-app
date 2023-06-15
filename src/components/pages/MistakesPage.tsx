@@ -14,14 +14,8 @@ import RecordsSearchForm from "../form/RecordsSearchForm";
 const { TextArea } = Input;
 
 const MistakesPage = () => {
-  const {
-    onFinish,
-    resultsData,
-    handleLoading,
-    userId,
-    userData,
-    handleIsRefecth,
-  } = useGetUserData();
+  const { onFinish, resultsData, handleLoading, userId, userData, refetch } =
+    useGetUserData();
 
   const [mistakeContent, setMistakeContent] = useState("");
 
@@ -77,7 +71,7 @@ const MistakesPage = () => {
 
         handleModalCancel();
 
-        handleIsRefecth();
+        refetch();
       })
       .catch(() => {
         errorAlert("잠시 후에 다시 시도해주세요", "노트 작성");
