@@ -1,25 +1,24 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { styled } from "styled-components";
 
 import { UserData } from "../../types";
-import { getDbAllData } from "../../util/firebase";
-import { useCommonLoading } from "../../hooks/useCommonLoading";
 import { RANKING_COLUMNS } from "../../constants";
 
 import TableContent from "../table/TableContent";
 import TableSkeleton from "../skeleton/TableSkeleton";
+import useGetUserDatas from "../../hooks/useGetUserDatas";
 
 const RankingPage = () => {
-  const { commonLoading, handleCommonLoading } = useCommonLoading();
+  const { commonLoading, userDatas } = useGetUserDatas();
 
   const [page, setPage] = useState(1);
 
   const [size, setSize] = useState(10);
 
-  const [userDatas, setUserDatas] = useState<UserData[]>([]);
-
   const formatUsers = userDatas.map((data) => {
     const userId = data.userId;
+
+    const maskedUserId = userId.slice(0, -3) + "***";
 
     const userResultsData = data.results;
 
@@ -35,7 +34,7 @@ const RankingPage = () => {
 
     return {
       key: userId,
-      userId,
+      userId: maskedUserId,
       accumulateAnswers,
     };
   });
@@ -63,14 +62,6 @@ const RankingPage = () => {
   const handlePageChange = useCallback((newPage: number, newSize: number) => {
     setPage(newPage);
     setSize(newSize);
-  }, []);
-
-  useEffect(() => {
-    handleCommonLoading();
-    getDbAllData<UserData>("users").then((res) => {
-      setUserDatas(res);
-      handleCommonLoading();
-    });
   }, []);
 
   return (
