@@ -1,9 +1,10 @@
-import { Button, Form, Input, Select } from "antd";
+import { Button, Form, Input, Result, Select } from "antd";
 import { useMemo } from "react";
 import { styled } from "styled-components";
 
 import { formatDate } from "../../util/format";
 import { RecordsSearchFormItem, ResultItem } from "../../types";
+import { useLocation } from "react-router-dom";
 
 type Props = {
   resultsData?: ResultItem[];
@@ -18,6 +19,14 @@ const RecordsSearchForm = ({
   onFinish,
   btnName,
 }: Props) => {
+  const location = useLocation();
+
+  const { pathname } = location;
+
+  const isRetryPage = pathname.includes("retry");
+
+  const selectWord = isRetryPage ? "도전" : "조회";
+
   const formatSelectItems = useMemo(
     () =>
       resultsData?.map(({ createdAt }, idx) => {
@@ -30,15 +39,32 @@ const RecordsSearchForm = ({
     [resultsData]
   );
 
+  const SelectBox = useMemo(
+    () => (
+      <Select
+        onChange={handleResultChange}
+        className="select"
+        placeholder={`${selectWord}를 원하는 날짜를 선택해주세요.`}
+        options={formatSelectItems}
+      />
+    ),
+    [formatSelectItems, selectWord]
+  );
+
   return (
     <Box>
       {formatSelectItems ? (
-        <Select
-          onChange={handleResultChange}
-          className="select"
-          placeholder="조회를 원하는 날짜를 선택해주세요."
-          options={formatSelectItems}
-        />
+        <>
+          {isRetryPage ? (
+            <Result
+              status="warning"
+              title={"날짜를 선택하면 바로 재도전이 시작됩니다."}
+              extra={SelectBox}
+            />
+          ) : (
+            SelectBox
+          )}
+        </>
       ) : (
         <Form autoComplete="off" onFinish={onFinish}>
           <Form.Item

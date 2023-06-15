@@ -1,5 +1,5 @@
 import { useRecoilState, useRecoilValue } from "recoil";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 
 import { userDataState } from "../../recoil/atom";
 import { RecordsSearchFormItem, UserData } from "../../types";
@@ -14,7 +14,13 @@ export const useGetUserData = () => {
 
   const resultsData = useRecoilValue(resultsDataState);
 
+  const [selectedResult, setSelectedResult] = useState<number>();
+
   const userId = userData?.userId;
+
+  const handleResultChange = useCallback((value: number) => {
+    setSelectedResult(value);
+  }, []);
 
   const fetchData = async (userId: string) => {
     handleLoading();
@@ -41,12 +47,13 @@ export const useGetUserData = () => {
   }, [userId]);
 
   return {
-    loading,
-    resultsData,
     userId,
+    userData,
+    resultsData,
+    selectedResult,
+    refetch,
     onFinish,
     handleLoading,
-    refetch,
-    userData,
+    handleResultChange,
   };
 };

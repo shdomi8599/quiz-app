@@ -14,8 +14,16 @@ import RecordsSearchForm from "../form/RecordsSearchForm";
 const { TextArea } = Input;
 
 const MistakesPage = () => {
-  const { onFinish, resultsData, handleLoading, userId, userData, refetch } =
-    useGetUserData();
+  const {
+    userId,
+    userData,
+    resultsData,
+    selectedResult,
+    refetch,
+    onFinish,
+    handleLoading,
+    handleResultChange,
+  } = useGetUserData();
 
   const [mistakeContent, setMistakeContent] = useState("");
 
@@ -24,8 +32,6 @@ const MistakesPage = () => {
   });
 
   const [viewData, setViewData] = useState<ResultItem>();
-
-  const [selectedResult, setSelectedResult] = useState<number>();
 
   const [quizCardPage, setQuizCardPage] = useState(1);
 
@@ -78,10 +84,6 @@ const MistakesPage = () => {
       });
     handleLoading();
   };
-
-  const handleResultChange = useCallback((value: number) => {
-    setSelectedResult(value);
-  }, []);
 
   const handleQuizChange = useCallback((currentSlide: number) => {
     setQuizCardPage(currentSlide + 1);

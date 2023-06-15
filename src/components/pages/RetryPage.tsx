@@ -1,7 +1,31 @@
 import { styled } from "styled-components";
 
+import { useGetUserData } from "../../hooks/user/useGetUserData";
+
+import RecordsSearchForm from "../form/RecordsSearchForm";
+
 const RetryPage = () => {
-  return <Box>재도전페이지입니다.</Box>;
+  const {
+    userId,
+    userData,
+    resultsData,
+    selectedResult,
+    onFinish,
+    refetch,
+    handleLoading,
+    handleResultChange,
+  } = useGetUserData();
+
+  return (
+    <>
+      <RecordsSearchForm
+        resultsData={resultsData}
+        handleResultChange={handleResultChange}
+        btnName="목록 조회"
+        onFinish={onFinish}
+      />
+    </>
+  );
 };
 
 export default RetryPage;
