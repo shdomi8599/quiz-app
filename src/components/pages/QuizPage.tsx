@@ -111,7 +111,7 @@ const QuizPage = () => {
   const resetAnswer = useCallback(() => {
     setSec(secLimit);
     setSelectedAnswer("");
-    setIsViewAnswer(false);
+    setIsViewAnswer(() => false);
   }, []);
 
   const navigateToNextQuiz = async () => {
@@ -181,8 +181,12 @@ const QuizPage = () => {
   }, [isViewAnswer]);
 
   useEffect(() => {
+    if (isViewAnswer) {
+      return;
+    }
+
     if (sec === 0) {
-      return setIsViewAnswer(true);
+      return setIsViewAnswer(() => true);
     }
 
     const interval = setInterval(() => {
@@ -192,7 +196,7 @@ const QuizPage = () => {
     return () => {
       clearInterval(interval);
     };
-  }, [sec]);
+  }, [sec, isViewAnswer]);
 
   useEffect(() => {
     resetAnswer();
