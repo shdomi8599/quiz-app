@@ -28,11 +28,3 @@ export const resultsDataState = selector({
     return userData?.results;
   },
 });
-
-export const userIdState = selector({
-  key: "userIdState",
-  get: ({ get }) => {
-    const userData = get(userDataState);
-    return userData?.userId;
-  },
-});

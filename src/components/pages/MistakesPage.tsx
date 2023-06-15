@@ -1,22 +1,28 @@
-import { Button, Carousel, Modal } from "antd";
-import { useCallback, useEffect, useState } from "react";
+import { Button, Carousel, Modal, Input } from "antd";
+import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import { styled } from "styled-components";
 
 import { useGetUserData } from "../../hooks/user/useGetUserData";
 import { ResultItem } from "../../types";
+import { confirmAlert, errorAlert } from "../common/Alert";
+import { setDbData } from "../../util/firebase";
 
 import QuizCard from "../card/QuizCard";
 import RecordsSearchForm from "../form/RecordsSearchForm";
 
+const { TextArea } = Input;
+
 const MistakesPage = () => {
-  const { onFinish, resultsData, userId } = useGetUserData();
+  const { onFinish, resultsData, handleLoading, userId, userData } =
+    useGetUserData();
+
+  const [mistakeContent, setMistakeContent] = useState("");
 
   const [viewData, setViewData] = useState<ResultItem>();
 
   const [selectedResult, setSelectedResult] = useState<number>();
 
-  //인덱스로 추적
-  const [quizPage, setQuizPage] = useState(0);
+  const [quizCardPage, setQuizCardPage] = useState(1);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -24,12 +30,58 @@ const MistakesPage = () => {
     setIsModalOpen(true);
   }, []);
 
-  const handleOk = useCallback(() => {
-    setIsModalOpen(false);
-  }, []);
+  const handleOk = () => {
+    confirmAlert("정말 작성하시겠습니까?", "노트 작성이")
+      .then(async () => {
+        handleLoading();
+
+        if (resultsData && userData) {
+          const selectedResultItem = resultsData[selectedResult as number];
+          const { wrongAnswerQuestions } = selectedResultItem;
+
+          const newWrongAnswerQuestions = wrongAnswerQuestions.map(
+            (quiz, index) =>
+              index === quizCardPage - 1
+                ? { ...quiz, mistakeNote: mistakeContent }
+                : quiz
+          );
+          const findResultDataIndex = resultsData.findIndex(
+            (result) => result.resultId === Number(selectedResult) + 1
+          );
+
+          if (findResultDataIndex !== -1) {
+            const newResultData = {
+              ...resultsData[findResultDataIndex],
+              wrongAnswerQuestions: newWrongAnswerQuestions,
+            };
+
+            const newResultsData = [...resultsData];
+
+            newResultsData[findResultDataIndex] = newResultData;
+
+            const newUserData = {
+              ...userData,
+              results: newResultsData,
+            };
+
+            await setDbData("users", userId as string, newUserData);
+          }
+        }
+
+        setIsModalOpen(false);
+
+        setMistakeContent("");
+      })
+      .catch(() => {
+        errorAlert("잠시 후에 다시 시도해주세요", "노트 작성");
+      });
+
+    handleLoading();
+  };
 
   const handleCancel = useCallback(() => {
     setIsModalOpen(false);
+    setMistakeContent("");
   }, []);
 
   const handleResultChange = useCallback((value: number) => {
@@ -37,8 +89,15 @@ const MistakesPage = () => {
   }, []);
 
   const handleQuizChange = useCallback((currentSlide: number) => {
-    setQuizPage(currentSlide);
+    setQuizCardPage(currentSlide + 1);
   }, []);
+
+  const handleMistakeContent = useCallback(
+    (e: ChangeEvent<HTMLTextAreaElement>) => {
+      setMistakeContent(e.target.value);
+    },
+    []
+  );
 
   useEffect(() => {
     if (resultsData) {
@@ -56,12 +115,20 @@ const MistakesPage = () => {
       />
       {viewData && (
         <>
-          <Modal
-            title="Basic Modal"
+          <ModalBox
+            title={`${quizCardPage}번 문제 오답노트 작성`}
             open={isModalOpen}
+            cancelText={"취소"}
+            okText={"작성"}
             onOk={handleOk}
             onCancel={handleCancel}
-          ></Modal>
+          >
+            <TextArea
+              value={mistakeContent}
+              onChange={handleMistakeContent}
+              rows={7}
+            />
+          </ModalBox>
           <BtnBox>
             <Button type="primary" onClick={showModal}>
               오답 노트 작성
@@ -115,4 +182,10 @@ const BtnBox = styled.div`
   padding: 0px calc((100% - 960px) / 2);
   display: flex;
   justify-content: center;
+`;
+
+const ModalBox = styled(Modal)`
+  textarea {
+    resize: none;
+  }
 `;

@@ -1,7 +1,7 @@
 import { useRecoilState, useRecoilValue } from "recoil";
 import { useCallback } from "react";
 
-import { userDataState, userIdState } from "../../recoil/atom";
+import { userDataState } from "../../recoil/atom";
 import { RecordsSearchFormItem, UserData } from "../../types";
 import { getDbDataByDocName } from "../../util/firebase";
 import { useLoadingAndError } from "../useLoadingAndError";
@@ -12,9 +12,9 @@ export const useGetUserData = () => {
 
   const [userData, setUserData] = useRecoilState(userDataState);
 
-  const userId = useRecoilValue(userIdState);
-
   const resultsData = useRecoilValue(resultsDataState);
+
+  const userId = userData?.userId;
 
   const onFinish = useCallback(async (values: RecordsSearchFormItem) => {
     handleLoading();
@@ -37,6 +37,8 @@ export const useGetUserData = () => {
     loading,
     onFinish,
     resultsData,
+    handleLoading,
     userId,
+    userData,
   };
 };
