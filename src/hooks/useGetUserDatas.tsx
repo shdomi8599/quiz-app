@@ -10,7 +10,9 @@ import { errorAlert } from "../components/common/Alert";
 const useGetUserDatas = () => {
   const { commonLoading, handleCommonLoading } = useCommonLoading();
 
-  const [resultTableItems] = useRecoilState(resultTableItemsState);
+  const [resultTableItems, setResultTableItems] = useRecoilState(
+    resultTableItemsState
+  );
 
   const [usersData, setUsersData] = useRecoilState(userDatasState);
 
@@ -34,9 +36,12 @@ const useGetUserDatas = () => {
     fetchData();
   }, []);
 
-  //유저가 결과조회까지 마치게되면 새로운 서버 데이터를 갖고 올 수 있도록
+  //유저가 결과조회까지 마치게되면 새로운 서버 데이터를 갖고 올 수 있도록하고, 결과데이터를 초기화시켜서 refecth 방지
   useEffect(() => {
-    fetchData();
+    if (resultTableItems.length > 0) {
+      fetchData();
+      setResultTableItems([]);
+    }
   }, [resultTableItems]);
 
   return {
