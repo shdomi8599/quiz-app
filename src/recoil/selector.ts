@@ -1,5 +1,9 @@
 import { selector } from "recoil";
-import { quizDatasState, wrongAnswerQuestionsState } from "./atom";
+import {
+  quizDatasState,
+  userDataState,
+  wrongAnswerQuestionsState,
+} from "./atom";
 
 export const quizDatasLegnthState = selector({
   key: "quizDatasLegnthState",
@@ -14,5 +18,13 @@ export const wrongAnswerQuestionsCountState = selector({
   get: ({ get }) => {
     const wrongAnswerQuestions = get(wrongAnswerQuestionsState);
     return wrongAnswerQuestions.length;
+  },
+});
+
+export const resultsDataState = selector({
+  key: "resultsDataState",
+  get: ({ get }) => {
+    const userData = get(userDataState);
+    return userData?.results;
   },
 });
