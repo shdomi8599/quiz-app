@@ -21,7 +21,7 @@ import { ResultItem, UserData } from "../../types";
 import { useRedirectAndBack } from "../../hooks/useRedirectAndBack";
 import { useLoadingAndError } from "../../hooks/useLoadingAndError";
 import { errorAlert } from "../common/Alert";
-import QuizCard from "../common/QuizCard";
+import QuizCard from "../card/QuizCard";
 
 const QuizPage = () => {
   const { handleLoading } = useLoadingAndError();

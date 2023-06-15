@@ -1,5 +1,5 @@
 import { Button } from "antd";
-import { errorAlert, successAlert } from "./Alert";
+import { errorAlert, successAlert } from "../common/Alert";
 
 type Props = {
   content: string;

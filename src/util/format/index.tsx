@@ -1,4 +1,4 @@
-import CopyBtn from "../../components/common/CopyBtn";
+import CopyBtn from "../../components/btn/CopyBtn";
 
 export const formatResultItemContent = (
   label: string,
