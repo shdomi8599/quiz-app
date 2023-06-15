@@ -5,6 +5,7 @@ export interface QuizData {
   incorrect_answers: string[];
   question: string;
   type: string;
+  mistakeNote?: string;
 }
 
 export interface UserData {
