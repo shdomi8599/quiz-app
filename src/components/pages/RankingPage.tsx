@@ -9,13 +9,13 @@ import TableSkeleton from "../skeleton/TableSkeleton";
 import useGetUserDatas from "../../hooks/useGetUserDatas";
 
 const RankingPage = () => {
-  const { commonLoading, userDatas } = useGetUserDatas();
+  const { commonLoading, usersData } = useGetUserDatas();
 
   const [page, setPage] = useState(1);
 
   const [size, setSize] = useState(10);
 
-  const formatUsers = userDatas.map((data) => {
+  const formatUsers = usersData.map((data) => {
     const userId = data.userId;
 
     const maskedUserId = userId.slice(0, -3) + "***";
@@ -57,7 +57,7 @@ const RankingPage = () => {
 
   const data = sortedUsers.slice(startIndex, endIndex);
 
-  const totalElements = userDatas.length;
+  const totalElements = usersData.length;
 
   const handlePageChange = useCallback((newPage: number, newSize: number) => {
     setPage(newPage);

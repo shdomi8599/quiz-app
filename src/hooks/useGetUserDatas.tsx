@@ -10,13 +10,13 @@ import { errorAlert } from "../components/common/Alert";
 const useGetUserDatas = () => {
   const { commonLoading, handleCommonLoading } = useCommonLoading();
 
-  const [userDatas, setUserDatas] = useRecoilState(userDatasState);
+  const [usersData, setUsersData] = useRecoilState(userDatasState);
 
   const fetchData = useCallback(async () => {
     try {
       handleCommonLoading();
       const res = await getDbAllData<UserData>("users");
-      setUserDatas(res);
+      setUsersData(res);
     } catch (error) {
       errorAlert("잠시 후에 다시 시도해주세요", "조회");
     } finally {
@@ -25,7 +25,7 @@ const useGetUserDatas = () => {
   }, []);
 
   useEffect(() => {
-    if (userDatas.length > 0) {
+    if (usersData.length > 0) {
       return;
     }
 
@@ -34,7 +34,7 @@ const useGetUserDatas = () => {
 
   return {
     commonLoading,
-    userDatas,
+    usersData,
   };
 };
 
