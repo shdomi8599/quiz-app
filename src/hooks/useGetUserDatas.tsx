@@ -7,7 +7,7 @@ import { getDbAllData } from "../util/firebase";
 import { errorAlert } from "../components/common/Alert";
 import { useLoadingAndError } from "./useLoadingAndError";
 
-const useGetUserDatas = () => {
+export const useGetUserDatas = () => {
   const { loading, handleLoading } = useLoadingAndError();
 
   const [resultTableItems, setResultTableItems] = useRecoilState(
@@ -49,5 +49,3 @@ const useGetUserDatas = () => {
     usersData,
   };
 };
-
-export default useGetUserDatas;

@@ -9,6 +9,7 @@ import { getDbDataByDocName } from "../../util/firebase";
 import { formatDate } from "../../util/format";
 import { MistakeFormItem, ResultItem, UserData } from "../../types";
 import { useLoadingAndError } from "../../hooks/useLoadingAndError";
+
 import QuizCard from "../common/QuizCard";
 
 const MistakesPage = () => {
