@@ -1,14 +1,14 @@
 import { useRecoilState } from "recoil";
 import { useCallback, useEffect } from "react";
 
-import { useCommonLoading } from "./useCommonLoading";
 import { resultTableItemsState, userDatasState } from "../recoil/atom";
 import { UserData } from "../types";
 import { getDbAllData } from "../util/firebase";
 import { errorAlert } from "../components/common/Alert";
+import { useLoadingAndError } from "./useLoadingAndError";
 
 const useGetUserDatas = () => {
-  const { commonLoading, handleCommonLoading } = useCommonLoading();
+  const { loading, handleLoading } = useLoadingAndError();
 
   const [resultTableItems, setResultTableItems] = useRecoilState(
     resultTableItemsState
@@ -18,13 +18,13 @@ const useGetUserDatas = () => {
 
   const fetchData = useCallback(async () => {
     try {
-      handleCommonLoading();
+      handleLoading();
       const res = await getDbAllData<UserData>("users");
       setUsersData(res);
     } catch (error) {
       errorAlert("잠시 후에 다시 시도해주세요", "조회");
     } finally {
-      handleCommonLoading();
+      handleLoading();
     }
   }, []);
 
@@ -45,7 +45,7 @@ const useGetUserDatas = () => {
   }, [resultTableItems]);
 
   return {
-    commonLoading,
+    loading,
     usersData,
   };
 };

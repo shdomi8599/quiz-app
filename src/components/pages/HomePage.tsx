@@ -13,13 +13,12 @@ import {
 import { getDbDataByDocName } from "../../util/firebase";
 import { generateRandomCode } from "../../util/random";
 import { getQuizDatas } from "../../util/api";
-import { errorAlert } from "../common/Alert";
-import { useCommonLoading } from "../../hooks/useCommonLoading";
+import { useLoadingAndError } from "../../hooks/useLoadingAndError";
 import { QUIZ_LEVEL_ITEMS, QUIZ_UESR_OPTIONS } from "../../constants";
 import { HomeFormItem, UserData, UserOption } from "../../types";
 
 const HomePage = () => {
-  const { handleCommonLoading } = useCommonLoading();
+  const { handleLoading, handleError } = useLoadingAndError();
 
   const navigate = useNavigate();
 
@@ -44,18 +43,8 @@ const HomePage = () => {
     setUserOption(e.target.value);
   }, []);
 
-  const handleError = useCallback((mode: "퀴즈" | "유저") => {
-    handleCommonLoading();
-    if (mode === "퀴즈") {
-      errorAlert("잠시 후에 다시 시도해주세요.", "퀴즈");
-    }
-    if (mode === "유저") {
-      errorAlert("닉네임이 존재하지 않습니다.", "기존 유저");
-    }
-  }, []);
-
   const onFinish = useCallback(async (values: HomeFormItem) => {
-    handleCommonLoading();
+    handleLoading();
 
     const { userOption, nickname, level, code } = values;
 
@@ -91,7 +80,7 @@ const HomePage = () => {
 
     setCurrentNavItem("퀴즈"); //네비 디폴트가 홈이다보니 퀴즈 중 다른 페이지로 이동했을 때, 홈으로 고정되어버리는 문제를 막기 위함
 
-    handleCommonLoading();
+    handleLoading();
 
     navigate("/quiz/1");
   }, []);

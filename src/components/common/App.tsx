@@ -5,16 +5,16 @@ import { Route, Routes } from "react-router-dom";
 import { Layout, Spin } from "antd";
 
 import { ROUTES } from "../../constants";
-import { useCommonLoading } from "../../hooks/useCommonLoading";
+import { useLoadingAndError } from "../../hooks/useLoadingAndError";
 
 import AppHeader from "./AppHeader";
 import AppFooter from "./AppFooter";
 
 function App() {
-  const { commonLoading } = useCommonLoading();
+  const { loading } = useLoadingAndError();
   return (
     <LayoutBox>
-      {commonLoading && (
+      {loading && (
         <LoadingBox>
           <Spin className="spin" />
         </LoadingBox>

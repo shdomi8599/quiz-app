@@ -7,8 +7,8 @@ export const quizLevelState = atom({
   default: 10,
 });
 
-export const commonLoadingState = atom({
-  key: "commonLoadingState",
+export const loadingState = atom({
+  key: "loadingState",
   default: false,
 });
 
@@ -45,4 +45,9 @@ export const resultTableItemsState = atom<ResultTableItem[]>({
 export const userDatasState = atom<UserData[]>({
   key: "userDatasState",
   default: [],
+});
+
+export const userDataState = atom<UserData | null>({
+  key: "userDataState",
+  default: null,
 });

@@ -19,12 +19,12 @@ import {
 import { getDbDataByDocName, setDbData } from "../../util/firebase";
 import { ResultItem, UserData } from "../../types";
 import { useRedirectAndBack } from "../../hooks/useRedirectAndBack";
-import { useCommonLoading } from "../../hooks/useCommonLoading";
+import { useLoadingAndError } from "../../hooks/useLoadingAndError";
 import { errorAlert } from "../common/Alert";
 import QuizCard from "../common/QuizCard";
 
 const QuizPage = () => {
-  const { handleCommonLoading } = useCommonLoading();
+  const { handleLoading } = useLoadingAndError();
 
   const { userId, navigate } = useRedirectAndBack();
 
@@ -101,7 +101,7 @@ const QuizPage = () => {
   };
 
   const navigateToResultPage = async () => {
-    handleCommonLoading();
+    handleLoading();
 
     const wrongCount = wrongAnswerQuestionsCount;
 
@@ -143,7 +143,7 @@ const QuizPage = () => {
 
     setResultTableItems(resultTableItems);
 
-    handleCommonLoading();
+    handleLoading();
 
     navigate(`/result`);
   };

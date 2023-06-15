@@ -9,7 +9,7 @@ import TableSkeleton from "../skeleton/TableSkeleton";
 import useGetUserDatas from "../../hooks/useGetUserDatas";
 
 const RankingPage = () => {
-  const { commonLoading, usersData } = useGetUserDatas();
+  const { loading, usersData } = useGetUserDatas();
 
   const [page, setPage] = useState(1);
 
@@ -66,7 +66,7 @@ const RankingPage = () => {
 
   return (
     <Box>
-      {commonLoading ? (
+      {loading ? (
         <TableSkeleton size={size} />
       ) : (
         <TableContent<UserData>
