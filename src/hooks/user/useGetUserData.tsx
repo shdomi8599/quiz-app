@@ -1,5 +1,5 @@
 import { useRecoilState, useRecoilValue } from "recoil";
-import { useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { userDataState } from "../../recoil/atom";
 import { RecordsSearchFormItem, UserData } from "../../types";
@@ -14,13 +14,16 @@ export const useGetUserData = () => {
 
   const resultsData = useRecoilValue(resultsDataState);
 
+  const [isRefecth, setIsRefecth] = useState(false);
+
+  const handleIsRefecth = useCallback(() => {
+    setIsRefecth((prev) => !prev);
+  }, []);
+
   const userId = userData?.userId;
 
-  const onFinish = useCallback(async (values: RecordsSearchFormItem) => {
+  const fetchData = async (userId: string) => {
     handleLoading();
-    const { nickname, code } = values;
-
-    const userId = nickname + code;
 
     const dbUserData = await getDbDataByDocName<UserData>("users", userId);
 
@@ -31,14 +34,32 @@ export const useGetUserData = () => {
     }
 
     handleLoading();
+  };
+
+  const onFinish = useCallback(async (values: RecordsSearchFormItem) => {
+    const { nickname, code } = values;
+    const userId = nickname + code;
+    await fetchData(userId);
   }, []);
+
+  const refetch = useCallback(async () => {
+    await fetchData(userId as string);
+  }, [userId]);
+
+  useEffect(() => {
+    if (isRefecth) {
+      refetch();
+      setIsRefecth(false);
+    }
+  }, [isRefecth]);
 
   return {
     loading,
-    onFinish,
     resultsData,
-    handleLoading,
     userId,
+    onFinish,
+    handleLoading,
+    handleIsRefecth,
     userData,
   };
 };

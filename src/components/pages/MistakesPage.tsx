@@ -14,12 +14,18 @@ import RecordsSearchForm from "../form/RecordsSearchForm";
 const { TextArea } = Input;
 
 const MistakesPage = () => {
-  const { onFinish, resultsData, handleLoading, userId, userData } =
-    useGetUserData();
+  const {
+    onFinish,
+    resultsData,
+    handleLoading,
+    userId,
+    userData,
+    handleIsRefecth,
+  } = useGetUserData();
 
   const [mistakeContent, setMistakeContent] = useState("");
 
-  const { isModalOpen,  handleModalCancel,showModal } = useModalUtil({
+  const { isModalOpen, handleModalCancel, showModal } = useModalUtil({
     setMistakeContent,
   });
 
@@ -36,6 +42,7 @@ const MistakesPage = () => {
 
         if (resultsData && userData) {
           const selectedResultItem = resultsData[selectedResult as number];
+
           const { wrongAnswerQuestions } = selectedResultItem;
 
           const newWrongAnswerQuestions = wrongAnswerQuestions.map(
@@ -44,6 +51,7 @@ const MistakesPage = () => {
                 ? { ...quiz, mistakeNote: mistakeContent }
                 : quiz
           );
+
           const findResultDataIndex = resultsData.findIndex(
             (result) => result.resultId === Number(selectedResult) + 1
           );
@@ -68,11 +76,12 @@ const MistakesPage = () => {
         }
 
         handleModalCancel();
+
+        handleIsRefecth();
       })
       .catch(() => {
         errorAlert("잠시 후에 다시 시도해주세요", "노트 작성");
       });
-
     handleLoading();
   };
 
@@ -95,7 +104,7 @@ const MistakesPage = () => {
     if (resultsData) {
       setViewData(resultsData[selectedResult as number]);
     }
-  }, [selectedResult]);
+  }, [selectedResult, resultsData]);
 
   return (
     <>
@@ -129,7 +138,11 @@ const MistakesPage = () => {
           <CarouselBox afterChange={handleQuizChange}>
             {viewData.wrongAnswerQuestions.map((question, idx) => (
               <div key={idx} className="card-box">
-                <QuizCard quizId={idx+1} quizData={question} isViewAnswer={true} />
+                <QuizCard
+                  quizId={idx + 1}
+                  quizData={question}
+                  isViewAnswer={true}
+                />
               </div>
             ))}
           </CarouselBox>
