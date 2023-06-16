@@ -46,8 +46,8 @@ const AppHeader = () => {
   const navItemsKeys = useMemo(() => Object.keys(NAV_ITEMS), []);
   const navItems = navItemsKeys.map((item) => (
     <NavItemBox
-      $currentNavItem={currentNavItem}
-      $item={item}
+      $pathname={pathname}
+      $item={NAV_ITEMS[item]}
       key={item}
       onClick={() => onClickNavItem(item)}
     >
@@ -165,7 +165,7 @@ const NavBox = styled.nav`
 `;
 
 type NavItemBoxProps = {
-  $currentNavItem: string;
+  $pathname: string;
   $item: string;
 };
 
@@ -173,10 +173,9 @@ const NavItemBox = styled.li<NavItemBoxProps>`
   padding: 0px 20px;
   cursor: pointer;
 
-  background-color: ${({ $currentNavItem, $item, theme }) =>
-    $currentNavItem === $item ? theme.colors.mainHover : ""};
-  color: ${({ $currentNavItem, $item }) =>
-    $currentNavItem === $item ? "white" : ""};
+  background-color: ${({ $pathname, $item, theme }) =>
+    $pathname === $item ? theme.colors.mainHover : ""};
+  color: ${({ $pathname, $item }) => ($pathname === $item ? "white" : "")};
 `;
 
 type ModalNavBoxProps = {
