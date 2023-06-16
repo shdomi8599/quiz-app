@@ -27,7 +27,7 @@ const RecordsSearchForm = ({
   const isRetryPage = pathname.includes("retry");
 
   const mainResultTitle = isRetryPage
-    ? "재도전을 시도해보세요!"
+    ? "다시 도전을 시도해보세요!"
     : "오답노트를 작성해주세요!";
 
   const selectResultTitle = isRetryPage
