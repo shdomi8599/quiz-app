@@ -36,6 +36,9 @@ const MistakesPage = () => {
   const [quizCardPage, setQuizCardPage] = useState(1);
 
   const handleModalOk = () => {
+    if (!mistakeContent) {
+      return errorAlert("글을 작성해주세요.", "노트 작성");
+    }
     confirmAlert("정말 작성하시겠습니까?", "노트 작성이")
       .then(async () => {
         handleLoading();
@@ -80,7 +83,7 @@ const MistakesPage = () => {
         refetch();
       })
       .catch(() => {
-        errorAlert("잠시 후에 다시 시도해주세요", "노트 작성");
+        handleLoading();
       });
     handleLoading();
   };
