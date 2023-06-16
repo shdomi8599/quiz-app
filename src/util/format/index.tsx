@@ -65,11 +65,14 @@ export const formatUsers = (usersData: UserData[]) => {
 };
 
 export const formatSelectItems = (resultsData: ResultItem[]) => {
-  return resultsData?.map(({ createdAt }, idx) => {
+  return resultsData?.map(({ createdAt, resultTableItems }, idx) => {
     const date = formatDate(new Date(createdAt.seconds * 1000));
+    const wrongCount = resultTableItems.find(
+      (item) => item.label === "오답 수"
+    )?.content;
     return {
       value: idx,
-      label: date,
+      label: `[오답 ${wrongCount}개] ${date}`,
     };
   });
 };

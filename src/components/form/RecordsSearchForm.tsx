@@ -97,4 +97,7 @@ const Box = styled.main`
     flex-direction: column;
     gap: 10px;
   }
+  .select {
+    width: 100%;
+  }
 `;
