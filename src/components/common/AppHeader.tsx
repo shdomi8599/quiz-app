@@ -83,7 +83,7 @@ const AppHeader = () => {
 
   useEffect(() => {
     const path = NAV_ITEMS[currentNavItem];
-    //퀴즈 페이지 이동 시, 일어나는 문제를 방지하기 위함
+    //퀴즈,재도전 페이지 이동 시, 일어나는 문제를 방지하기 위함
     if (path) {
       navigate(path);
     }

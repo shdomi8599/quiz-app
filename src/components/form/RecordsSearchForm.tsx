@@ -5,7 +5,7 @@ import { styled } from "styled-components";
 import { formatSelectItems } from "../../util/format";
 import { RecordsSearchFormItem, ResultItem } from "../../types";
 import { useLocation } from "react-router-dom";
-import { FORM_NICKNAME_RULES } from "../../constants";
+import { FORM_CODE_RULES, FORM_NICKNAME_RULES } from "../../constants";
 
 type Props = {
   resultsData?: ResultItem[];
@@ -65,15 +65,7 @@ const RecordsSearchForm = ({
               <Form.Item name="nickname" rules={FORM_NICKNAME_RULES}>
                 <Input maxLength={10} placeholder="닉네임을 입력해주세요." />
               </Form.Item>
-              <Form.Item
-                name="code"
-                rules={[
-                  {
-                    required: true,
-                    message: "#을 포함한 숫자를 입력해야 조회할 수 있습니다.",
-                  },
-                ]}
-              >
+              <Form.Item name="code" rules={FORM_CODE_RULES}>
                 <Input
                   maxLength={5}
                   placeholder="#을 포함한 숫자 4자리를 입력해주세요."

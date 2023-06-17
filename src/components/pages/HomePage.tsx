@@ -8,6 +8,7 @@ import { generateRandomCode } from "../../util/random";
 import { getQuizDatas } from "../../util/api";
 import { useLoadingAndError } from "../../hooks/useLoadingAndError";
 import {
+  FORM_CODE_RULES,
   FORM_NICKNAME_RULES,
   QUIZ_LEVEL_ITEMS,
   QUIZ_UESR_OPTIONS,
@@ -103,15 +104,7 @@ const HomePage = () => {
               <Input maxLength={10} placeholder="닉네임을 입력해주세요." />
             </Form.Item>
             {isExistingUser && (
-              <Form.Item
-                name="code"
-                rules={[
-                  {
-                    required: true,
-                    message: "#을 포함한 숫자를 입력해야 참가할 수 있습니다.",
-                  },
-                ]}
-              >
+              <Form.Item name="code" rules={FORM_CODE_RULES}>
                 <Input
                   maxLength={5}
                   placeholder="#을 포함한 숫자 4자리를 입력해주세요."

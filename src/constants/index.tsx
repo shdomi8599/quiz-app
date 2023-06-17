@@ -63,3 +63,10 @@ export const FORM_NICKNAME_RULES = [
     message: "닉네임에는 공백을 포함할 수 없습니다.",
   },
 ];
+
+export const FORM_CODE_RULES = [
+  {
+    required: true,
+    message: "#을 포함한 숫자를 입력해야 조회할 수 있습니다.",
+  },
+];
