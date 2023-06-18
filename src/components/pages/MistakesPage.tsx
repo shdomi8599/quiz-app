@@ -174,12 +174,19 @@ const CarouselBox = styled(Carousel)`
   .slick-dots {
     li {
       width: 100px;
-      background-color: ${({ theme }) => theme.colors.sub};
+      height: 50px;
+
+      button {
+        height: 50px;
+        font-size: 25px;
+        color: black;
+      }
     }
     .slick-active {
       width: 100px !important;
       > button {
-        background-color: ${({ theme }) => theme.colors.main} !important;
+        background-color: black !important;
+        color: white;
       }
     }
   }
