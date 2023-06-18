@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 import Skeleton from "./Skeleton";
+import { memo } from "react";
 
 const TableSkeleton = ({ size }: { size: number }) => {
   const skeletonLength = Array(size + 1).fill(1);
@@ -19,7 +20,7 @@ const TableSkeleton = ({ size }: { size: number }) => {
   );
 };
 
-export default TableSkeleton;
+export default memo(TableSkeleton);
 
 const Box = styled.div`
   width: 80%;
