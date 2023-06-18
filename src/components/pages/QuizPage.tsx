@@ -197,7 +197,7 @@ const QuizPage = () => {
   }, [quizId]);
 
   return (
-    <Box $isViewAnswer={isViewAnswer}>
+    <Box>
       <CircleProgress percent={circleProgressPercent} />
       <ProgressBarBox $sec={sec}>
         <Progress
@@ -229,36 +229,10 @@ const QuizPage = () => {
 
 export default QuizPage;
 
-type BoxProps = {
-  $isViewAnswer: boolean;
-};
-
-const Box = styled.main<BoxProps>`
+const Box = styled.main`
   display: flex;
   flex-direction: column;
   gap: 40px;
-
-  .ant-radio-group {
-    width: 100%;
-    .ant-space {
-      width: 100%;
-    }
-  }
-
-  .radio-box {
-    width: 100%;
-    padding: 20px 40px;
-
-    ${({ $isViewAnswer, theme }) =>
-      !$isViewAnswer &&
-      `
-    &:hover {
-      border-radius: 10px;
-      color: white;
-      background-color: ${theme.colors.main}};
-    }
-  `}
-  }
 `;
 
 const vibrationAnimation = keyframes`

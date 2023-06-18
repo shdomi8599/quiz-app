@@ -1,12 +1,13 @@
 import { Badge, Card, Modal, Radio, RadioChangeEvent, Space } from "antd";
 import { useLocation } from "react-router-dom";
-import { useMemo } from "react";
+import { memo, useMemo } from "react";
 import { styled } from "styled-components";
 import { decode } from "he";
 
 import { QuizData } from "../../types";
 import { shuffleDatas } from "../../util/random";
 import { useModalUtil } from "../../hooks/useModalUtil";
+
 import CommonBtn from "../btn/CommonBtn";
 
 type Props = {
@@ -51,6 +52,7 @@ const QuizCard = ({
     <>
       <CardBox
         $isViewAnswer={isViewAnswer}
+        $isMistakePage={isMistakePage}
         title={<div>{quizTitle}</div>}
         bordered={false}
       >
@@ -96,10 +98,11 @@ const QuizCard = ({
     </>
   );
 };
-export default QuizCard;
+export default memo(QuizCard);
 
 type CardBoxProps = {
   $isViewAnswer: boolean;
+  $isMistakePage: boolean;
 };
 
 const CardBox = styled(Card)<CardBoxProps>`
@@ -114,6 +117,28 @@ const CardBox = styled(Card)<CardBoxProps>`
     display: ${({ $isViewAnswer }) => ($isViewAnswer ? "display" : "none")};
     top: 20px;
     left: -33px;
+  }
+
+  .ant-radio-group {
+    width: 100%;
+    .ant-space {
+      width: 100%;
+    }
+  }
+
+  .radio-box {
+    width: 100%;
+    padding: ${({ $isMistakePage }) => ($isMistakePage ? "0px" : "20px 40px")};
+
+    ${({ $isViewAnswer, theme }) =>
+      !$isViewAnswer &&
+      `
+    &:hover {
+      border-radius: 10px;
+      color: white;
+      background-color: ${theme.colors.main}};
+    }
+  `}
   }
 `;
 
