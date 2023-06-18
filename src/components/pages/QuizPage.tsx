@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { css, keyframes, styled } from "styled-components";
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -24,8 +24,9 @@ import { useLoadingAndError } from "../../hooks/useLoadingAndError";
 import { ResultItem, UserData } from "../../types";
 import { errorAlert } from "../common/Alert";
 
-import QuizCard from "../card/QuizCard";
+import QuizCard from "../quiz/QuizCard";
 import CommonBtn from "../btn/CommonBtn";
+import CircleProgress from "../quiz/CircleProgress";
 
 const QuizPage = () => {
   const { handleLoading } = useLoadingAndError();
@@ -74,10 +75,9 @@ const QuizPage = () => {
 
   const quizId = Number(id);
 
-  const circleProgressPercent = formatCircleProgressPercent(
-    quizId,
-    quizLevel,
-    isViewAnswer
+  const circleProgressPercent = useMemo(
+    () => formatCircleProgressPercent(quizId, quizLevel, isViewAnswer),
+    [isViewAnswer]
   );
 
   const quizData = quizDatas[quizId - 1];
@@ -86,15 +86,12 @@ const QuizPage = () => {
     setSelectedAnswer(e.target.value);
   }, []);
 
-  const handlerIsCheckAnswer = useCallback(
-    () => () => {
-      if (selectedAnswer === "") {
-        return errorAlert("정답을 선택해주세요", "퀴즈");
-      }
-      setIsViewAnswer(true);
-    },
-    [selectedAnswer]
-  );
+  const handlerIsCheckAnswer = useCallback(() => {
+    if (selectedAnswer === "") {
+      return errorAlert("정답을 선택해주세요", "퀴즈");
+    }
+    setIsViewAnswer(true);
+  }, [selectedAnswer]);
 
   const resetAnswer = useCallback(() => {
     setSec(secLimit);
@@ -201,7 +198,7 @@ const QuizPage = () => {
 
   return (
     <Box $isViewAnswer={isViewAnswer}>
-      <Progress type="circle" percent={circleProgressPercent} />
+      <CircleProgress percent={circleProgressPercent} />
       <ProgressBarBox $sec={sec}>
         <Progress
           className="progress-bar"

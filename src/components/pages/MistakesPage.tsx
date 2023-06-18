@@ -8,7 +8,7 @@ import { ResultItem } from "../../types";
 import { confirmAlert, errorAlert } from "../common/Alert";
 import { setDbData } from "../../util/firebase";
 
-import QuizCard from "../card/QuizCard";
+import QuizCard from "../quiz/QuizCard";
 import RecordsSearchForm from "../form/RecordsSearchForm";
 import CommonBtn from "../btn/CommonBtn";
 
