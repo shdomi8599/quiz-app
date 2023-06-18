@@ -27,6 +27,7 @@ import { errorAlert } from "../common/Alert";
 import QuizCard from "../quiz/QuizCard";
 import CommonBtn from "../btn/CommonBtn";
 import CircleProgress from "../quiz/CircleProgress";
+import BarProgress from "../quiz/BarProgress";
 
 const QuizPage = () => {
   const { handleLoading } = useLoadingAndError();
@@ -72,6 +73,8 @@ const QuizPage = () => {
     }
     return;
   };
+
+  const strokeColor = useMemo(() => progressBarColor(), [progressBarColor]);
 
   const quizId = Number(id);
 
@@ -199,15 +202,11 @@ const QuizPage = () => {
   return (
     <Box>
       <CircleProgress percent={circleProgressPercent} />
-      <ProgressBarBox $sec={sec}>
-        <Progress
-          className="progress-bar"
-          percent={progressBarPercent}
-          status="active"
-          strokeColor={progressBarColor()}
-        />
-        <span className="custom-sec">{sec}초</span>
-      </ProgressBarBox>
+      <BarProgress
+        sec={sec}
+        percent={progressBarPercent}
+        strokeColor={strokeColor}
+      />
       <QuizCard
         handleSelectedAnswer={handleSelectedAnswer}
         selectedAnswer={selectedAnswer}
@@ -233,48 +232,4 @@ const Box = styled.main`
   display: flex;
   flex-direction: column;
   gap: 40px;
-`;
-
-const vibrationAnimation = keyframes`
-  0% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-1.2px);
-  }
-  100% {
-    transform: translateY(0);
-  }
-`;
-
-type ProgressBarBoxProps = {
-  $sec: number;
-};
-
-const ProgressBarBox = styled.div<ProgressBarBoxProps>`
-  width: 70%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-
-  .progress-bar {
-    width: 100%;
-    margin: 0;
-    animation: ${({ $sec }) =>
-      $sec <= 10 && $sec > 0
-        ? css`
-            ${vibrationAnimation} 0.2s ease-in-out infinite
-          `
-        : "none"};
-
-    > span {
-      display: none;
-    }
-  }
-
-  .custom-sec {
-    position: absolute;
-    right: 0px;
-  }
 `;
