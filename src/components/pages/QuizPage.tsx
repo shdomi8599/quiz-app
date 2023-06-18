@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
-import { css, keyframes, styled } from "styled-components";
+import { styled } from "styled-components";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { decode } from "he";
-import { RadioChangeEvent, Progress } from "antd";
+import { RadioChangeEvent } from "antd";
 
 import {
   currentNavItemState,
@@ -36,7 +36,7 @@ const QuizPage = () => {
 
   const { id } = useParams();
 
-  const secLimit = 30;
+  const secLimit = useMemo(() => 30, []);
   const [sec, setSec] = useState(secLimit);
 
   const [isViewAnswer, setIsViewAnswer] = useState(false);
