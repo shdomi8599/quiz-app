@@ -1,5 +1,6 @@
 import { Chart, registerables } from "chart.js";
 import { useEffect, useRef } from "react";
+import { styled } from "styled-components";
 
 type Props = {
   distributionData: {
@@ -61,6 +62,8 @@ const StatisticsChart = ({ distributionData }: Props) => {
     }
   }, [distributionData]);
 
-  return <canvas ref={chartRef} />;
+  return <Box><canvas ref={chartRef} /></Box>;
 };
 export default StatisticsChart;
+
+const Box = styled.main``;

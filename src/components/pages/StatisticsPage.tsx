@@ -1,5 +1,4 @@
 import { useCallback, useMemo } from "react";
-import { styled } from "styled-components";
 
 import { useGetUsersData } from "../../hooks/user/useGetUsersData";
 import { ResultTableItem } from "../../types";
@@ -89,13 +88,7 @@ const StatisticsPage = () => {
     [accuracyData]
   );
 
-  return (
-    <Box>
-      <StatisticsChart distributionData={distributionData} />
-    </Box>
-  );
+  return <StatisticsChart distributionData={distributionData} />;
 };
 
 export default StatisticsPage;
-
-const Box = styled.main``;
