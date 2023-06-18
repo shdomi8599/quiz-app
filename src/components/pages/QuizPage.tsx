@@ -86,12 +86,15 @@ const QuizPage = () => {
     setSelectedAnswer(e.target.value);
   }, []);
 
-  const handlerIsCheckAnswer = () => {
-    if (selectedAnswer === "") {
-      return errorAlert("정답을 선택해주세요", "퀴즈");
-    }
-    setIsViewAnswer(true);
-  };
+  const handlerIsCheckAnswer = useCallback(
+    () => () => {
+      if (selectedAnswer === "") {
+        return errorAlert("정답을 선택해주세요", "퀴즈");
+      }
+      setIsViewAnswer(true);
+    },
+    [selectedAnswer]
+  );
 
   const resetAnswer = useCallback(() => {
     setSec(secLimit);
@@ -99,7 +102,7 @@ const QuizPage = () => {
     setIsViewAnswer(() => false);
   }, []);
 
-  const navigateToNextQuiz = async () => {
+  const navigateToNextQuiz = () => {
     navigate(`/quiz/${quizId + 1}`);
   };
 
