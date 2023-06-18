@@ -8,6 +8,7 @@ import { RecordsSearchFormItem, ResultItem } from "../../types";
 import { FORM_CODE_RULES, FORM_NICKNAME_RULES } from "../../constants";
 
 import CommonBtn from "../btn/CommonBtn";
+import ResultSelectBox from "./ResultSelectBox";
 
 type Props = {
   resultsData?: ResultItem[];
@@ -28,15 +29,24 @@ const RecordsSearchForm = ({
 
   const isRetryPage = pathname.includes("retry");
 
-  const mainResultTitle = isRetryPage
-    ? "다시 도전을 시도해보세요!"
-    : "오답노트를 작성해주세요!";
+  const mainResultTitle = useMemo(
+    () =>
+      isRetryPage ? "다시 도전을 시도해보세요!" : "오답노트를 작성해주세요!",
+    [isRetryPage]
+  );
 
-  const selectResultTitle = isRetryPage
-    ? "날짜를 선택하면 바로 재도전이 시작됩니다."
-    : "날짜를 선택하면 오답노트를 작성할 수 있습니다.";
+  const selectResultTitle = useMemo(
+    () =>
+      isRetryPage
+        ? "날짜를 선택하면 바로 재도전이 시작됩니다."
+        : "날짜를 선택하면 오답노트를 작성할 수 있습니다.",
+    [isRetryPage]
+  );
 
-  const selectWord = isRetryPage ? "도전" : "조회";
+  const selectWord = useMemo(
+    () => (isRetryPage ? "도전" : "조회"),
+    [isRetryPage]
+  );
 
   const selectItemsOptions = useMemo(
     () => resultsData && formatSelectItems(resultsData),
@@ -58,7 +68,7 @@ const RecordsSearchForm = ({
   return (
     <Box>
       {selectItemsOptions ? (
-        <Result status="warning" title={selectResultTitle} extra={SelectBox} />
+        <ResultSelectBox title={selectResultTitle} extra={SelectBox} />
       ) : (
         <Result
           title={mainResultTitle}

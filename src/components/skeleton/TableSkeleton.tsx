@@ -1,7 +1,7 @@
+import { memo, useMemo } from "react";
 import styled from "styled-components";
 
 import Skeleton from "./Skeleton";
-import { memo, useMemo } from "react";
 
 const TableSkeleton = ({ size }: { size: number }) => {
   const skeletonLength = useMemo(() => Array(size + 1).fill(1), [size]);
