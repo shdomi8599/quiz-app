@@ -1,17 +1,18 @@
 import { Chart, registerables } from "chart.js";
 import { useEffect, useRef } from "react";
-import { styled } from "styled-components";
 
 type Props = {
+  onFailRate: boolean;
   distributionData: {
     x: number;
     y: number;
   }[];
 };
 
-const StatisticsChart = ({ distributionData }: Props) => {
+const StatisticsChart = ({ distributionData, onFailRate }: Props) => {
   const chartRef = useRef<HTMLCanvasElement>(null);
   let previousChart = useRef<Chart | null>(null);
+  const xText = onFailRate ? "실패율" : "정답률";
   useEffect(() => {
     if (chartRef.current && distributionData) {
       if (previousChart.current) {
@@ -41,7 +42,7 @@ const StatisticsChart = ({ distributionData }: Props) => {
               type: "linear",
               title: {
                 display: true,
-                text: "정답률",
+                text: xText,
               },
               ticks: {
                 stepSize: 10,
@@ -62,8 +63,6 @@ const StatisticsChart = ({ distributionData }: Props) => {
     }
   }, [distributionData]);
 
-  return <Box><canvas ref={chartRef} /></Box>;
+  return <canvas ref={chartRef} />;
 };
 export default StatisticsChart;
-
-const Box = styled.main``;
