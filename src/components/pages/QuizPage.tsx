@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { css, keyframes, styled } from "styled-components";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { decode } from "he";
-import { Button, RadioChangeEvent, Progress } from "antd";
+import { RadioChangeEvent, Progress } from "antd";
 
 import {
   currentNavItemState,

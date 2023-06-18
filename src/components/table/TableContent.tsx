@@ -1,5 +1,5 @@
-import { Pagination, Table } from "antd";
 import styled from "styled-components";
+import { Pagination, Table } from "antd";
 
 import { TableColumn } from "../../types";
 

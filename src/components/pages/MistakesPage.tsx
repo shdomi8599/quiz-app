@@ -1,4 +1,4 @@
-import { Button, Carousel, Modal, Input } from "antd";
+import { Carousel, Modal, Input } from "antd";
 import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import { styled } from "styled-components";
 

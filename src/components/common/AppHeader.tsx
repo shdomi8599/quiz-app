@@ -8,9 +8,7 @@ import { FaBars } from "react-icons/fa";
 import {
   currentNavItemState,
   elapsedTimeState,
-  quizDatasState,
   userDataState,
-  userIdState,
   wrongAnswerQuestionsState,
 } from "../../recoil/atom";
 import { useOffResize } from "../../hooks/useOffResize";
@@ -24,16 +22,12 @@ const AppHeader = () => {
 
   const location = useLocation();
 
-  const [, setUserId] = useRecoilState(userIdState);
-
   const [currentNavItem, setCurrentNavItem] =
     useRecoilState(currentNavItemState);
 
   const [, setWrongAnswerQuestions] = useRecoilState(wrongAnswerQuestionsState);
 
   const [, setElapsedTime] = useRecoilState(elapsedTimeState);
-
-  const [, setQuizDatas] = useRecoilState(quizDatasState);
 
   const [, setUserData] = useRecoilState(userDataState);
 
@@ -60,10 +54,8 @@ const AppHeader = () => {
   }, []);
 
   const resetState = useCallback(() => {
-    setUserId("");
     setIsNav(false);
     setElapsedTime(0);
-    setQuizDatas([]);
     setUserData(null);
     setWrongAnswerQuestions([]);
   }, []);
@@ -91,7 +83,7 @@ const AppHeader = () => {
 
   useEffect(() => {
     const path = NAV_ITEMS[currentNavItem];
-    //퀴즈 페이지 이동 시, 일어나는 문제를 방지하기 위함
+    //퀴즈,재도전 페이지 이동 시, 일어나는 문제를 방지하기 위함
     if (path) {
       navigate(path);
     }
