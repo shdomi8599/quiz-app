@@ -25,6 +25,7 @@ import { ResultItem, UserData } from "../../types";
 import { errorAlert } from "../common/Alert";
 
 import QuizCard from "../card/QuizCard";
+import CommonBtn from "../btn/CommonBtn";
 
 const QuizPage = () => {
   const { handleLoading } = useLoadingAndError();
@@ -215,12 +216,12 @@ const QuizPage = () => {
       />
       {isViewAnswer ? (
         quizId === quizDatasLegnth ? (
-          <Button onClick={navigateToResultPage}>결과 확인</Button>
+          <CommonBtn onClick={navigateToResultPage}>결과 확인</CommonBtn>
         ) : (
-          <Button onClick={navigateToNextQuiz}>다음 문제</Button>
+          <CommonBtn onClick={navigateToNextQuiz}>다음 문제</CommonBtn>
         )
       ) : (
-        <Button onClick={handlerIsCheckAnswer}>정답 확인</Button>
+        <CommonBtn onClick={handlerIsCheckAnswer}>정답 확인</CommonBtn>
       )}
     </Box>
   );

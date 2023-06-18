@@ -10,6 +10,7 @@ import { setDbData } from "../../util/firebase";
 
 import QuizCard from "../card/QuizCard";
 import RecordsSearchForm from "../form/RecordsSearchForm";
+import CommonBtn from "../btn/CommonBtn";
 
 const { TextArea } = Input;
 
@@ -131,9 +132,9 @@ const MistakesPage = () => {
             />
           </ModalBox>
           <BtnBox>
-            <Button type="primary" onClick={showModal}>
+            <CommonBtn type="primary" onClick={showModal}>
               오답 노트 작성
-            </Button>
+            </CommonBtn>
           </BtnBox>
           <CarouselBox afterChange={handleQuizChange}>
             {viewData.wrongAnswerQuestions.map((question, idx) => (

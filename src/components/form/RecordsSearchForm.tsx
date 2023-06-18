@@ -6,6 +6,7 @@ import { formatSelectItems } from "../../util/format";
 import { RecordsSearchFormItem, ResultItem } from "../../types";
 import { useLocation } from "react-router-dom";
 import { FORM_NICKNAME_RULES } from "../../constants";
+import CommonBtn from "../btn/CommonBtn";
 
 type Props = {
   resultsData?: ResultItem[];
@@ -78,9 +79,9 @@ const RecordsSearchForm = ({
               placeholder="#을 포함한 숫자 4자리를 입력해주세요."
             />
           </Form.Item>
-          <Button type="primary" htmlType="submit">
+          <CommonBtn type="primary" htmlType="submit">
             {btnName}
-          </Button>
+          </CommonBtn>
         </Form>
       )}
     </Box>

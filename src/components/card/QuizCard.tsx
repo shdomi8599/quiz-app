@@ -15,6 +15,7 @@ import { decode } from "he";
 import { QuizData } from "../../types";
 import { shuffleDatas } from "../../util/random";
 import { useModalUtil } from "../../hooks/useModalUtil";
+import CommonBtn from "../btn/CommonBtn";
 
 type Props = {
   handleSelectedAnswer?: (e: RadioChangeEvent) => void;
@@ -86,9 +87,9 @@ const QuizCard = ({
       {quizData?.mistakeNote && isMistakePage && (
         <>
           <MistakeBox>
-            <Button onClick={showModal} type="primary">
+            <CommonBtn onClick={showModal} type="primary">
               오답 노트 조회
-            </Button>
+            </CommonBtn>
           </MistakeBox>
           <Modal
             title={`${quizId}번 문제 오답노트`}

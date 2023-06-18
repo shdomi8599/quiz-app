@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, Result, Input, Form, Radio, RadioChangeEvent } from "antd";
+import { Result, Input, Form, Radio, RadioChangeEvent } from "antd";
 import { styled } from "styled-components";
 
 import { getDbDataByDocName } from "../../util/firebase";
@@ -14,6 +14,7 @@ import {
 } from "../../constants";
 import { HomeFormItem, UserData, UserOption } from "../../types";
 import { useSetQuizAppState } from "../../hooks/useSetQuizAppState";
+import CommonBtn from "../btn/CommonBtn";
 
 const HomePage = () => {
   const { handleLoading, handleError } = useLoadingAndError();
@@ -127,9 +128,9 @@ const HomePage = () => {
                 ))}
               </Radio.Group>
             </Form.Item>
-            <Button type="primary" htmlType="submit">
+            <CommonBtn type="primary" htmlType="submit">
               퀴즈 풀기
-            </Button>
+            </CommonBtn>
           </Form>
         }
       />
