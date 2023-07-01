@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 import { Switch } from "antd";
 import { styled } from "styled-components";
 
@@ -49,6 +49,7 @@ const StatisticsPage = () => {
         allAnswersCount,
       };
     }
+    return null;
   });
 
   const calculateAccuracy = useCallback((target: number, total: number) => {
@@ -65,6 +66,7 @@ const StatisticsPage = () => {
       }
       return calculateAccuracy(correntCount, allCount);
     }
+    return null;
   });
 
   const distributionData = accuracyData
