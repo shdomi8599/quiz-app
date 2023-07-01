@@ -1,10 +1,10 @@
-import { Dispatch, SetStateAction, useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 
 type Props = {
-  setMistakeContent?: Dispatch<SetStateAction<string>>;
+  changeMistakeContent?: (content: string) => void;
 };
 
-export const useModalUtil = ({ setMistakeContent }: Props) => {
+export const useModalUtil = ({ changeMistakeContent }: Props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = useCallback(() => {
@@ -13,7 +13,7 @@ export const useModalUtil = ({ setMistakeContent }: Props) => {
 
   const handleModalCancel = useCallback(() => {
     setIsModalOpen(false);
-    setMistakeContent && setMistakeContent("");
+    changeMistakeContent && changeMistakeContent("");
   }, []);
 
   return {

@@ -28,8 +28,12 @@ const MistakesPage = () => {
 
   const [mistakeContent, setMistakeContent] = useState("");
 
+  const changeMistakeContent = useCallback((content: string) => {
+    setMistakeContent(content);
+  }, []);
+
   const { isModalOpen, handleModalCancel, showModal } = useModalUtil({
-    setMistakeContent,
+    changeMistakeContent,
   });
 
   const [viewData, setViewData] = useState<ResultItem>();
