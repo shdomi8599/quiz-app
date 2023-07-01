@@ -162,7 +162,6 @@ const QuizPage = () => {
     navigate(`/result`);
   };
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (isViewAnswer) {
       const newElapsedTime = secLimit - sec;
@@ -177,6 +176,7 @@ const QuizPage = () => {
     if (isWrongAnswer && isViewAnswer) {
       setWrongAnswerQuestions((prev) => [...prev, quizData]);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isViewAnswer]);
 
   useEffect(() => {
@@ -199,7 +199,8 @@ const QuizPage = () => {
 
   useEffect(() => {
     resetAnswer();
-  }, [quizId, resetAnswer]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [quizId]);
 
   return (
     <Box>

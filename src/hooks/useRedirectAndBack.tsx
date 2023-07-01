@@ -9,14 +9,13 @@ export const useRedirectAndBack = () => {
 
   const navigate = useNavigate();
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (!userId) {
       navigate("/");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     const preventGoBack = () => {
       navigate("/");
@@ -25,6 +24,7 @@ export const useRedirectAndBack = () => {
     window.addEventListener("popstate", preventGoBack);
 
     return () => window.removeEventListener("popstate", preventGoBack);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return {

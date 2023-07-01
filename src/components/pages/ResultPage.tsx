@@ -20,16 +20,16 @@ const ResultPage = () => {
 
   const resultTableItems = useRecoilValue(resultTableItemsState);
 
-  const tableItemsCount = resultTableItems.length;
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  
   useEffect(() => {
+    const tableItemsCount = resultTableItems.length;
     if (wrongCount === 0 && tableItemsCount) {
       return confettiStar();
     }
     if (tableItemsCount) {
       confettiRealisticLook();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
