@@ -45,6 +45,7 @@
   },
   "devDependencies": {
     "@types/canvas-confetti": "^1.6.0",
-    "@types/he": "^1.2.0"
+    "@types/he": "^1.2.0",
+    "@babel/plugin-proposal-private-property-in-object": "^7.16.0"
   }
 }
