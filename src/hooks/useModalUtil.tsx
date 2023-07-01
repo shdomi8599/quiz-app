@@ -1,10 +1,6 @@
 import { useCallback, useState } from "react";
 
-type Props = {
-  changeMistakeContent?: (content: string) => void;
-};
-
-export const useModalUtil = ({ changeMistakeContent }: Props) => {
+export const useModalUtil = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = useCallback(() => {
@@ -13,7 +9,6 @@ export const useModalUtil = ({ changeMistakeContent }: Props) => {
 
   const handleModalCancel = useCallback(() => {
     setIsModalOpen(false);
-    changeMistakeContent && changeMistakeContent("");
   }, []);
 
   return {

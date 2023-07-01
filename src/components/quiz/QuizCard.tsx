@@ -31,7 +31,7 @@ const QuizCard = ({
 
   const isMistakePage = pathname.includes("mistakes");
 
-  const { isModalOpen, handleModalCancel, showModal } = useModalUtil({});
+  const { isModalOpen, handleModalCancel, showModal } = useModalUtil();
 
   const handleModalOk = () => {
     handleModalCancel();
