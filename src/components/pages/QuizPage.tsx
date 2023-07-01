@@ -74,7 +74,7 @@ const QuizPage = () => {
     return;
   };
 
-  const strokeColor = useMemo(() => progressBarColor(), [progressBarColor]);
+  const strokeColor = useMemo(() => progressBarColor(), []);
 
   const quizId = Number(id);
 
