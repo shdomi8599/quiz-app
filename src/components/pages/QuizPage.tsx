@@ -162,6 +162,7 @@ const QuizPage = () => {
     navigate(`/result`);
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (isViewAnswer) {
       const newElapsedTime = secLimit - sec;
@@ -198,7 +199,7 @@ const QuizPage = () => {
 
   useEffect(() => {
     resetAnswer();
-  }, [quizId]);
+  }, [quizId, resetAnswer]);
 
   return (
     <Box>

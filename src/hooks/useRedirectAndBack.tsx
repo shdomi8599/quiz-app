@@ -9,12 +9,14 @@ export const useRedirectAndBack = () => {
 
   const navigate = useNavigate();
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (!userId) {
       navigate("/");
     }
   }, []);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     const preventGoBack = () => {
       navigate("/");

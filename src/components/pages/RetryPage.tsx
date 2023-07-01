@@ -15,6 +15,7 @@ const RetryPage = () => {
   const { setCurrentNavItem, setUserId, setQuizDatas, setQuizLevel } =
     useSetQuizAppState();
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (resultsData) {
       const targetResultData = resultsData[selectedResult as number];

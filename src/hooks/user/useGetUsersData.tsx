@@ -28,6 +28,7 @@ export const useGetUsersData = () => {
     }
   }, [handleLoading, setUsersData]);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (usersData.length > 0) {
       return;
@@ -37,6 +38,7 @@ export const useGetUsersData = () => {
   }, []);
 
   //유저가 결과조회까지 마치게되면 새로운 서버 데이터를 갖고 올 수 있도록하고, 결과데이터를 초기화시켜서 refecth 방지
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (resultTableItems.length > 0) {
       fetchData();

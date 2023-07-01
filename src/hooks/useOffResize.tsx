@@ -17,6 +17,7 @@ export const useOffResize = (
     }
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (set === "up") {
       window.addEventListener("resize", upOffMenu);

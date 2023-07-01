@@ -22,6 +22,7 @@ const ResultPage = () => {
 
   const tableItemsCount = resultTableItems.length;
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (wrongCount === 0 && tableItemsCount) {
       return confettiStar();

@@ -1,6 +1,6 @@
 import { Badge, Card, Modal, Radio, RadioChangeEvent, Space } from "antd";
 import { useLocation } from "react-router-dom";
-import { memo, useMemo } from "react";
+import { memo } from "react";
 import { styled } from "styled-components";
 import { decode } from "he";
 
