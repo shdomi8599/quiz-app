@@ -61,7 +61,7 @@ const StatisticsChart = ({ distributionData, onFailRate }: Props) => {
 
       previousChart.current = newChart;
     }
-  }, [distributionData]);
+  }, [distributionData, xText]);
 
   return <canvas ref={chartRef} />;
 };

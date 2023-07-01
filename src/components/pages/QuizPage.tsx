@@ -71,16 +71,17 @@ const QuizPage = () => {
     if (sec <= 20) {
       return "#f3f039";
     }
-    return;
+    return "";
   };
 
-  const strokeColor = useMemo(() => progressBarColor(), []);
+  const strokeColor = progressBarColor();
 
   const quizId = Number(id);
 
-  const circleProgressPercent = useMemo(
-    () => formatCircleProgressPercent(quizId, quizLevel, isViewAnswer),
-    [isViewAnswer]
+  const circleProgressPercent = formatCircleProgressPercent(
+    quizId,
+    quizLevel,
+    isViewAnswer
   );
 
   const quizData = quizDatas[quizId - 1];
@@ -96,11 +97,11 @@ const QuizPage = () => {
     setIsViewAnswer(true);
   }, [selectedAnswer]);
 
-  const resetAnswer = useCallback(() => {
+  const resetAnswer = () => {
     setSec(secLimit);
     setSelectedAnswer("");
     setIsViewAnswer(() => false);
-  }, []);
+  };
 
   const navigateToNextQuiz = () => {
     navigate(`/quiz/${quizId + 1}`);

@@ -44,10 +44,8 @@ const QuizCard = ({
   const wrongAnswer =
     quizData?.incorrect_answers?.map((answer) => decode(answer)) || [];
 
-  const answers = useMemo(
-    () => shuffleDatas([...wrongAnswer, correctAnswer]),
-    [quizData]
-  );
+  const answers = shuffleDatas([...wrongAnswer, correctAnswer]);
+
   return (
     <>
       <CardBox

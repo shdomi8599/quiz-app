@@ -62,7 +62,7 @@ const RecordsSearchForm = ({
         options={selectItemsOptions}
       />
     ),
-    [selectItemsOptions, selectWord]
+    [selectItemsOptions, selectWord, handleResultChange]
   );
 
   return (

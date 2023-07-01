@@ -38,7 +38,7 @@ const HomePage = () => {
     setUserOption(e.target.value);
   }, []);
 
-  const onFinish = useCallback(async (values: HomeFormItem) => {
+  const onFinish = async (values: HomeFormItem) => {
     handleLoading();
 
     const { userOption, nickname, level, code } = values;
@@ -78,7 +78,7 @@ const HomePage = () => {
     handleLoading();
 
     navigate("/quiz/1");
-  }, []);
+  };
 
   return (
     <Box>

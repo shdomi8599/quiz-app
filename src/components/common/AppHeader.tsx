@@ -58,7 +58,7 @@ const AppHeader = () => {
     setElapsedTime(0);
     setUserData(null);
     setWrongAnswerQuestions([]);
-  }, []);
+  }, [setIsNav, setElapsedTime, setUserData, setWrongAnswerQuestions]);
 
   //비동기 동작 순서를 고려해서 확실하게 reset 후, 이동시키기 위해 navigate를 useEffect 처리
   const handleNavItem = (key: string) => {
@@ -87,7 +87,7 @@ const AppHeader = () => {
     if (path) {
       navigate(path);
     }
-  }, [currentNavItem]);
+  }, [currentNavItem, navigate]);
 
   return (
     <HeaderBox>

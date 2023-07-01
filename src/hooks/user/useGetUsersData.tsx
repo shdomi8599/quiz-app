@@ -26,7 +26,7 @@ export const useGetUsersData = () => {
     } finally {
       handleLoading();
     }
-  }, []);
+  }, [handleLoading, setUsersData]);
 
   useEffect(() => {
     if (usersData.length > 0) {

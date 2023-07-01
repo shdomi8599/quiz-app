@@ -36,15 +36,15 @@ export const useGetUserData = () => {
     handleLoading();
   };
 
-  const onFinish = useCallback(async (values: RecordsSearchFormItem) => {
+  const onFinish = async (values: RecordsSearchFormItem) => {
     const { nickname, code } = values;
     const userId = nickname + code;
     await fetchData(userId);
-  }, []);
+  };
 
-  const refetch = useCallback(async () => {
+  const refetch = async () => {
     await fetchData(userId as string);
-  }, [userId]);
+  };
 
   return {
     userId,
