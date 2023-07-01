@@ -23,81 +23,63 @@ const StatisticsPage = () => {
     []
   );
 
-  const formatResultsData = useMemo(
-    () => usersData?.map((data) => data.results),
-    [usersData]
-  );
+  const formatResultsData = usersData?.map((data) => data.results);
 
-  const flatResultsData = useMemo(
-    () => formatResultsData?.flat(),
-    [formatResultsData]
-  );
+  const flatResultsData = formatResultsData?.flat();
 
-  const formatStatisticsData = useMemo(
-    () =>
-      flatResultsData?.map((result) => {
-        if (result) {
-          const { resultTableItems } = result;
+  const formatStatisticsData = flatResultsData?.map((result) => {
+    if (result) {
+      const { resultTableItems } = result;
 
-          const correctAnswersCount = findAnswerCount(
-            resultTableItems,
-            "정답 수"
-          ) as number;
+      const correctAnswersCount = findAnswerCount(
+        resultTableItems,
+        "정답 수"
+      ) as number;
 
-          const incorrectAnswersCount = findAnswerCount(
-            resultTableItems,
-            "오답 수"
-          ) as number;
+      const incorrectAnswersCount = findAnswerCount(
+        resultTableItems,
+        "오답 수"
+      ) as number;
 
-          const allAnswersCount = correctAnswersCount + incorrectAnswersCount;
+      const allAnswersCount = correctAnswersCount + incorrectAnswersCount;
 
-          return {
-            correctAnswersCount,
-            incorrectAnswersCount,
-            allAnswersCount,
-          };
-        }
-      }),
-    [flatResultsData]
-  );
+      return {
+        correctAnswersCount,
+        incorrectAnswersCount,
+        allAnswersCount,
+      };
+    }
+  });
 
   const calculateAccuracy = useCallback((target: number, total: number) => {
     return (target / total) * 100;
   }, []);
 
-  const accuracyData = useMemo(
-    () =>
-      formatStatisticsData?.map((data) => {
-        if (data) {
-          const correntCount = data.correctAnswersCount;
-          const incorrectCount = data.incorrectAnswersCount;
-          const allCount = data.allAnswersCount;
-          if (onFailRate) {
-            return calculateAccuracy(incorrectCount, allCount);
-          }
-          return calculateAccuracy(correntCount, allCount);
-        }
-      }),
-    [formatStatisticsData, onFailRate]
-  );
+  const accuracyData = formatStatisticsData?.map((data) => {
+    if (data) {
+      const correntCount = data.correctAnswersCount;
+      const incorrectCount = data.incorrectAnswersCount;
+      const allCount = data.allAnswersCount;
+      if (onFailRate) {
+        return calculateAccuracy(incorrectCount, allCount);
+      }
+      return calculateAccuracy(correntCount, allCount);
+    }
+  });
 
-  const distributionData = useMemo(
-    () =>
-      accuracyData
-        .reduce((acc: { x: number; y: number }[], value) => {
-          const existingData = acc.find((item) => item.x === value);
-          if (existingData) {
-            existingData.y++;
-          } else {
-            acc.push({ x: value as number, y: 1 });
-          }
-          return acc;
-        }, [])
-        .sort((a, b) => {
-          return a.x - b.x;
-        }),
-    [accuracyData]
-  );
+  const distributionData = accuracyData
+    .reduce((acc: { x: number; y: number }[], value) => {
+      const existingData = acc.find((item) => item.x === value);
+      if (existingData) {
+        existingData.y++;
+      } else {
+        acc.push({ x: value as number, y: 1 });
+      }
+      return acc;
+    }, [])
+    .sort((a, b) => {
+      return a.x - b.x;
+    });
 
   return (
     <Box>
