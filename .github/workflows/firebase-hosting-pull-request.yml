@@ -7,7 +7,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Generate Environment Variables File for Production
-        run:
+        run: |
         echo "REACT_APP_FIRE_BASE_API_KEY=$REACT_APP_FIRE_BASE_API_KEY" >> .env.production
         echo "REACT_APP_FIRE_BASE_AUTH_DOMAIN=$REACT_APP_FIRE_BASE_AUTH_DOMAIN" >> .env.production
         echo "REACT_APP_FIRE_BASE_PROJECT_ID=$REACT_APP_FIRE_BASE_PROJECT_ID" >> .env.production
