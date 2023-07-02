@@ -19,6 +19,7 @@ const firebaseConfig = {
   appId: process.env.REACT_APP_FIRE_BASE_APP_ID,
 };
 
+
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
