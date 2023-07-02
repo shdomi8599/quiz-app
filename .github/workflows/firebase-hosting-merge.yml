@@ -9,22 +9,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      # Github Repository Secrets를 통해 환경 변수 파일을 생성합니다.
-      - name: Generate Environment Variables File for Production
-        run: |
-          echo "REACT_APP_FIRE_BASE_API_KEY=$REACT_APP_FIRE_BASE_API_KEY" >> .env.production
-          echo "REACT_APP_FIRE_BASE_APP_ID=$REACT_APP_FIRE_BASE_APP_ID" >> .env.production
-          echo "REACT_APP_FIRE_BASE_AUTH_DOMAIN=$REACT_APP_FIRE_BASE_AUTH_DOMAIN" >> .env.production
-          echo "REACT_APP_FIRE_BASE_MESSAGING_SENDER_ID=$REACT_APP_FIRE_BASE_MESSAGING_SENDER_ID" >> .env.production
-          echo "REACT_APP_FIRE_BASE_PROJECT_ID=$REACT_APP_FIRE_BASE_PROJECT_ID" >> .env.production
-          echo "REACT_APP_FIRE_BASE_STORAGE_BUCKET=$REACT_APP_FIRE_BASE_STORAGE_BUCKET" >> .env.production
-        env:
-          REACT_APP_FIRE_BASE_API_KEY: ${{ secrets.REACT_APP_FIRE_BASE_API_KEY }}
-          REACT_APP_FIRE_BASE_APP_ID: ${{ secrets.REACT_APP_FIRE_BASE_APP_ID }}
-          REACT_APP_FIRE_BASE_AUTH_DOMAIN: ${{ secrets.REACT_APP_FIRE_BASE_AUTH_DOMAIN }}
-          REACT_APP_FIRE_BASE_MESSAGING_SENDER_ID: ${{ secrets.REACT_APP_FIRE_BASE_MESSAGING_SENDER_ID }}
-          REACT_APP_FIRE_BASE_PROJECT_ID: ${{ secrets.REACT_APP_FIRE_BASE_PROJECT_ID }}
-          REACT_APP_FIRE_BASE_STORAGE_BUCKET: ${{ secrets.REACT_APP_FIRE_BASE_STORAGE_BUCKET }}
+    - name: Create .env file
+      run: |
+        jq -r 'to_entries|map("\(.key)=\(.value|tostring)")|.[]' <<< "$SECRETS_CONTEXT" > .env
+      env:
+        SECRETS_CONTEXT: ${{ toJson(secrets) }}
 
       - run: npm i && npm run build
       - uses: FirebaseExtended/action-hosting-deploy@v0
