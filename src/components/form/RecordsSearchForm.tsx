@@ -1,11 +1,11 @@
+import { Form, Input, Result, Select } from "antd";
 import { useMemo } from "react";
 import { useLocation } from "react-router-dom";
 import { styled } from "styled-components";
-import { Form, Input, Result, Select } from "antd";
 
-import { formatSelectItems } from "../../util/format";
-import { RecordsSearchFormItem, ResultItem } from "../../types";
 import { FORM_CODE_RULES, FORM_NICKNAME_RULES } from "../../constants";
+import { RecordsSearchFormItem, ResultItem } from "../../types";
+import { formatSelectItems } from "../../util/format";
 
 import CommonBtn from "../btn/CommonBtn";
 import ResultSelectBox from "./ResultSelectBox";
@@ -71,6 +71,9 @@ const RecordsSearchForm = ({
         <ResultSelectBox title={selectResultTitle} extra={SelectBox} />
       ) : (
         <Result
+          style={{
+            minWidth: 350,
+          }}
           title={mainResultTitle}
           extra={
             <Form autoComplete="off" onFinish={onFinish}>
