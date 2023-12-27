@@ -1,12 +1,12 @@
 import { Badge, Card, Modal, Radio, RadioChangeEvent, Space } from "antd";
-import { useLocation } from "react-router-dom";
-import { memo } from "react";
-import { styled } from "styled-components";
 import { decode } from "he";
+import { memo, useMemo } from "react";
+import { useLocation } from "react-router-dom";
+import { styled } from "styled-components";
 
+import { useModalUtil } from "../../hooks/useModalUtil";
 import { QuizData } from "../../types";
 import { shuffleDatas } from "../../util/random";
-import { useModalUtil } from "../../hooks/useModalUtil";
 
 import CommonBtn from "../btn/CommonBtn";
 
@@ -44,7 +44,10 @@ const QuizCard = ({
   const wrongAnswer =
     quizData?.incorrect_answers?.map((answer) => decode(answer)) || [];
 
-  const answers = shuffleDatas([...wrongAnswer, correctAnswer]);
+  const answers = useMemo(
+    () => shuffleDatas([...wrongAnswer, correctAnswer]),
+    [correctAnswer]
+  );
 
   return (
     <>
