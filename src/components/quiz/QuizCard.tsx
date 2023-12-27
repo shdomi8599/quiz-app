@@ -46,7 +46,7 @@ const QuizCard = ({
 
   const answers = useMemo(
     () => shuffleDatas([...wrongAnswer, correctAnswer]),
-    [correctAnswer, wrongAnswer]
+    [correctAnswer]
   );
 
   return (
